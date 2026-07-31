@@ -60,17 +60,19 @@ export function TypewriterHeading() {
   return (
     <h1
       aria-label={`Code that ${phrase.first} ${phrase.second}`}
-      className="relative z-10 text-[clamp(2.35rem,12vw,4.8rem)] font-black uppercase leading-[0.9] tracking-tight transition duration-500 group-hover:-translate-y-1 group-hover:text-shadow-blue lg:text-[clamp(3.2rem,5.7vw,5.8rem)]"
+      className="typewriter-heading relative z-10 max-w-full text-[clamp(2rem,10.5vw,2.75rem)] font-black uppercase leading-[0.92] transition duration-500 group-hover:text-shadow-blue sm:text-[3.6rem] lg:text-[clamp(3rem,4.6vw,4.15rem)]"
     >
-      Code that
+      <span aria-hidden="true" className="typewriter-line block">
+        Code that
+      </span>
       <span
         aria-hidden="true"
-        className="block min-h-[0.9em] text-blue-200 transition duration-500 group-hover:text-blue-100"
+        className="typewriter-line hero-accent block transition duration-500"
       >
         {firstLine}
         {cursorIsOnFirstLine && <span className="typewriter-cursor" />}
       </span>
-      <span aria-hidden="true" className="block min-h-[0.9em]">
+      <span aria-hidden="true" className="typewriter-line block">
         {secondLine}
         {!cursorIsOnFirstLine && <span className="typewriter-cursor" />}
       </span>

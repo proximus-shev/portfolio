@@ -1,56 +1,41 @@
 "use client";
 
+import type { PointerEvent, ReactNode } from "react";
 import { useRef } from "react";
+import { PortfolioHeader } from "@/components/PortfolioHeader";
+import { SciFiBackground } from "@/components/SciFiBackground";
 
 const backgroundCode = [
-  "const app = createPortfolio({ stack: 'next' });",
-  "export type ProjectStatus = 'draft' | 'live';",
+  "const project = await build(idea);",
+  "type Status = 'planned' | 'live';",
   "function ship(feature) { return test(feature); }",
-  "await deploy('proximus-shev');",
-  "const skills = ['React', 'Next.js', 'TypeScript'];",
-  "interface Developer { focus: string[]; }",
-  "def build_ui(system): return polish(system)",
-  "from portfolio import projects, contact",
-  "async def main(): await launch_site()",
-  "if __name__ == '__main__': build()",
-  "std::vector<std::string> stack = {'ts', 'cpp'};",
-  "auto result = compile(portfolio);",
-  "#include <iostream>",
-  "template <typename T> void render(T component);",
-  "console.log('clean user flows');",
-  "const response = await fetch('/api/projects');",
-  "type Route = '/' | '/projects' | '/contact';",
+  "def analyze(document): return insights",
+  "interface Product { value: true; }",
   "git push origin main",
-  "SELECT project, stack FROM portfolio;",
-  "docker compose up --build",
+  "SELECT title, stack FROM projects;",
+  "auto result = compile(portfolio);",
 ];
 
-const floatingCode = Array.from({ length: 3 }, (_, layer) =>
+const floatingCode = Array.from({ length: 4 }, (_, layer) =>
   backgroundCode.map((row, index) => ({ row, index, layer })),
 ).flat();
 
 type SciFiPageShellProps = {
-  children: React.ReactNode;
+  children: ReactNode;
 };
 
 export function SciFiPageShell({ children }: SciFiPageShellProps) {
   const mainRef = useRef<HTMLElement>(null);
   const frameRef = useRef<number | null>(null);
 
-  const updateGlowPosition = (event: React.PointerEvent<HTMLElement>) => {
+  const updateGlowPosition = (event: PointerEvent<HTMLElement>) => {
     if (frameRef.current !== null) {
       window.cancelAnimationFrame(frameRef.current);
     }
 
     frameRef.current = window.requestAnimationFrame(() => {
-      const target = mainRef.current;
-
-      if (!target) {
-        return;
-      }
-
-      target.style.setProperty("--mouse-x", `${event.clientX}px`);
-      target.style.setProperty("--mouse-y", `${event.clientY}px`);
+      mainRef.current?.style.setProperty("--mouse-x", `${event.clientX}px`);
+      mainRef.current?.style.setProperty("--mouse-y", `${event.clientY}px`);
     });
   };
 
@@ -59,28 +44,38 @@ export function SciFiPageShell({ children }: SciFiPageShellProps) {
       ref={mainRef}
       onPointerDown={updateGlowPosition}
       onPointerMove={updateGlowPosition}
-      className="mouse-glow relative min-h-screen overflow-x-hidden bg-[#05070d] px-5 py-6 text-white sm:px-8 lg:px-14"
+      className="mouse-glow relative isolate min-h-screen overflow-x-clip bg-[#02040b] text-white"
     >
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_26%_8%,rgba(59,130,246,0.22),transparent_28%),linear-gradient(180deg,#05070d_0%,#020617_62%,#000_100%)]" />
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(96,165,250,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(96,165,250,0.08)_1px,transparent_1px)] bg-[size:44px_44px] opacity-35" />
-      <div className="code-rain pointer-events-none absolute inset-0" aria-hidden="true">
+      <div className="site-atmosphere pointer-events-none fixed inset-0" />
+      <div className="site-grid pointer-events-none fixed inset-0" />
+      <SciFiBackground
+        variant="orbital"
+        priority
+        fixed
+        intensity="soft"
+      />
+      <div
+        className="code-rain pointer-events-none fixed inset-0"
+        aria-hidden="true"
+      >
         {floatingCode.map(({ row, index, layer }) => (
           <span
             key={`${row}-${index}-${layer}`}
-            className="absolute whitespace-nowrap font-mono text-[10px] tracking-[0.18em] text-blue-100/70"
+            className="absolute whitespace-nowrap font-mono text-[9px] text-blue-100/70"
             style={{
-              left: `${(index * 23 + layer * 11) % 98}%`,
-              top: `${(index * 11 + layer * 29) % 94}%`,
-              animationDelay: `${index * 0.22 + layer * 0.8}s`,
-              animationDuration: `${7 + ((index + layer) % 7) * 1.15}s`,
+              left: `${(index * 31 + layer * 19) % 96}%`,
+              top: `${(index * 17 + layer * 23) % 94}%`,
+              animationDelay: `${index * 0.3 + layer * 0.8}s`,
             }}
           >
             {row}
           </span>
         ))}
       </div>
-      <div className="pointer-events-none absolute left-1/2 top-0 hidden h-full w-px bg-blue-300/15 shadow-[0_0_80px_18px_rgba(59,130,246,0.22)] md:block" />
-      <div className="relative z-10 mx-auto max-w-7xl">{children}</div>
+      <PortfolioHeader />
+      <div className="relative z-10 mx-auto w-full max-w-[1400px] px-5 sm:px-8 lg:px-12">
+        {children}
+      </div>
     </main>
   );
 }

@@ -1,5 +1,7 @@
 import Link from "next/link";
+import { ArrowLeft, ArrowUpRight, Check } from "lucide-react";
 import { notFound } from "next/navigation";
+import { SciFiPageShell } from "@/components/SciFiPageShell";
 import { getProject, projects } from "@/data/projects";
 
 type ProjectPageProps = {
@@ -17,9 +19,7 @@ export async function generateMetadata({ params }: ProjectPageProps) {
   const project = getProject(slug);
 
   if (!project) {
-    return {
-      title: "Project Not Found | John Amoako Appiah",
-    };
+    return { title: "Project Not Found | John Amoako Appiah" };
   }
 
   return {
@@ -37,91 +37,98 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
   }
 
   return (
-    <main className="min-h-screen bg-[#05070d] px-5 py-6 text-white sm:px-8 lg:px-14">
-      <div className="absolute inset-0 -z-0 bg-[radial-gradient(circle_at_74%_10%,rgba(59,130,246,0.2),transparent_28%),linear-gradient(180deg,#05070d_0%,#020617_62%,#000_100%)]" />
-      <div className="relative z-10 mx-auto max-w-6xl">
-        <header className="flex items-center justify-between">
-          <Link
-            href="/projects"
-            className="font-mono text-xs font-bold uppercase tracking-[0.24em] text-blue-100 transition hover:text-white sm:text-sm"
-          >
-            ./projects
-          </Link>
-          <Link
-            href="/"
-            className="border border-blue-200/20 px-4 py-2 font-mono text-xs uppercase tracking-[0.18em] text-blue-100 transition hover:border-blue-200/60 hover:bg-blue-500/10"
-          >
-            Home
-          </Link>
-        </header>
+    <SciFiPageShell>
+      <section className="py-12 sm:py-16 lg:py-20">
+        <Link
+          href="/projects"
+          className="inline-flex items-center gap-2 font-mono text-[10px] uppercase text-white/45 transition hover:text-cyan-300"
+        >
+          <ArrowLeft size={14} />
+          All projects
+        </Link>
 
-        <section className="grid gap-10 py-16 lg:grid-cols-[1fr_0.72fr] lg:py-20">
+        <div className="mt-10 grid gap-10 lg:grid-cols-[1fr_0.48fr] lg:items-end">
           <div>
-            <p className="font-mono text-xs uppercase tracking-[0.28em] text-blue-200">
-              ./{project.slug}
-            </p>
-            <h1 className="mt-5 max-w-4xl text-[clamp(2.5rem,8vw,6rem)] font-black uppercase leading-[0.9] tracking-tight">
+            <p className="section-label">./{project.slug}</p>
+            <h1 className="mt-5 max-w-4xl text-5xl font-black uppercase leading-[0.94] sm:text-6xl lg:text-7xl">
               {project.title}
             </h1>
-            <p className="mt-6 max-w-2xl text-base leading-8 text-white/64">
+            <p className="mt-6 max-w-2xl text-base leading-8 text-white/60">
               {project.summary}
             </p>
           </div>
 
-          <aside className="border border-blue-200/14 bg-black/38 p-5 font-mono backdrop-blur-md">
-            <div className="flex items-center justify-between border-b border-white/10 pb-4">
-              <span className="text-xs uppercase tracking-[0.2em] text-white/42">
-                status
-              </span>
-              <span className="text-xs uppercase tracking-[0.2em] text-blue-100">
-                {project.status}
-              </span>
+          <aside className="border border-white/10 bg-black/25 p-5 font-mono">
+            <div className="flex items-center justify-between border-b border-white/10 pb-4 text-[10px] uppercase">
+              <span className="text-white/35">Status</span>
+              <span className="text-cyan-300">{project.status}</span>
             </div>
             <div className="mt-5 flex flex-wrap gap-2">
               {project.stack.map((item) => (
                 <span
                   key={item}
-                  className="bg-blue-500/10 px-3 py-2 text-[10px] uppercase tracking-[0.14em] text-blue-100"
+                  className="border border-blue-300/15 bg-blue-500/[0.07] px-3 py-2 text-[9px] text-blue-100/75"
                 >
                   {item}
                 </span>
               ))}
             </div>
           </aside>
-        </section>
+        </div>
+      </section>
 
-        <section className="grid gap-4 pb-16 lg:grid-cols-2">
-          <article className="border border-blue-200/14 bg-black/34 p-5 backdrop-blur-md">
-            <p className="font-mono text-xs uppercase tracking-[0.24em] text-blue-200">
-              Problem
-            </p>
-            <p className="mt-4 leading-8 text-white/66">{project.problem}</p>
-          </article>
+      <section className="grid gap-px border border-white/10 bg-white/10 lg:grid-cols-2">
+        <article className="surface-card bg-[#030711] p-6 sm:p-8">
+          <p className="section-label">The problem</p>
+          <p className="mt-5 leading-8 text-white/65">{project.problem}</p>
+        </article>
+        <article className="surface-card bg-[#030711] p-6 sm:p-8">
+          <p className="section-label">The solution</p>
+          <p className="mt-5 leading-8 text-white/65">{project.solution}</p>
+        </article>
+      </section>
 
-          <article className="border border-blue-200/14 bg-black/34 p-5 backdrop-blur-md">
-            <p className="font-mono text-xs uppercase tracking-[0.24em] text-blue-200">
-              Solution
-            </p>
-            <p className="mt-4 leading-8 text-white/66">{project.solution}</p>
-          </article>
-
-          <article className="border border-blue-200/14 bg-black/34 p-5 backdrop-blur-md lg:col-span-2">
-            <p className="font-mono text-xs uppercase tracking-[0.24em] text-blue-200">
-              Features
-            </p>
-            <div className="mt-5 grid gap-3 sm:grid-cols-2">
-              {project.features.map((feature) => (
-                <div
-                  key={feature}
-                  className="border border-white/10 bg-white/[0.03] px-4 py-3 text-white/72"
-                >
-                  {feature}
-                </div>
-              ))}
+      <section className="py-16 sm:py-20">
+        <p className="section-label">Core features</p>
+        <div className="mt-7 grid gap-px border border-white/10 bg-white/10 sm:grid-cols-2">
+          {project.features.map((feature) => (
+            <div
+              key={feature}
+              className="surface-card flex items-center gap-3 bg-[#030711] px-5 py-5 text-sm text-white/70"
+            >
+              <Check size={15} className="shrink-0 text-cyan-300" />
+              {feature}
             </div>
-          </article>
-        </section>
-      </div>
-    </main>
+          ))}
+        </div>
+
+        {(project.liveUrl || project.githubUrl) && (
+          <div className="mt-8 flex flex-wrap gap-3">
+            {project.liveUrl && (
+              <a
+                href={project.liveUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="primary-action inline-flex h-11 items-center gap-2 bg-blue-600 px-4 font-mono text-xs uppercase"
+              >
+                Live project
+                <ArrowUpRight size={14} />
+              </a>
+            )}
+            {project.githubUrl && (
+              <a
+                href={project.githubUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="secondary-action inline-flex h-11 items-center gap-2 border border-white/20 px-4 font-mono text-xs uppercase"
+              >
+                Source code
+                <ArrowUpRight size={14} />
+              </a>
+            )}
+          </div>
+        )}
+      </section>
+    </SciFiPageShell>
   );
 }

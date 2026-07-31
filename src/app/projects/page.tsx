@@ -1,82 +1,101 @@
 import Link from "next/link";
-import { projects } from "@/data/projects";
+import { ArrowRight } from "lucide-react";
 import { SciFiPageShell } from "@/components/SciFiPageShell";
+import { projects } from "@/data/projects";
 
 export const metadata = {
   title: "Projects | John Amoako Appiah",
-  description: "Portfolio projects by John Amoako Appiah.",
+  description:
+    "Selected frontend, full-stack, software, and Python projects by John Amoako Appiah.",
 };
 
 export default function ProjectsPage() {
   return (
     <SciFiPageShell>
-        <header className="flex items-center justify-between">
-          <Link
-            href="/"
-            className="font-mono text-xs font-bold uppercase tracking-[0.24em] text-blue-100 transition hover:text-white sm:text-sm"
-          >
-            Proximus Shev
-          </Link>
-          <Link
-            href="/"
-            className="border border-blue-200/20 px-4 py-2 font-mono text-xs uppercase tracking-[0.18em] text-blue-100 transition hover:border-blue-200/60 hover:bg-blue-500/10"
-          >
-            Home
-          </Link>
-        </header>
+      <section className="py-16 sm:py-20 lg:py-24">
+        <p className="section-label">Projects / 01-06</p>
+        <h1 className="mt-5 max-w-4xl text-5xl font-black uppercase leading-[0.92] sm:text-6xl lg:text-7xl">
+          Ideas designed
+          <span className="block text-blue-300">to become useful.</span>
+        </h1>
+        <p className="mt-6 max-w-2xl text-base leading-8 text-white/60">
+          A growing collection of products exploring interface craft,
+          full-stack architecture, Python, AI, and practical problem-solving.
+        </p>
+      </section>
 
-        <section className="py-16 sm:py-20">
-          <p className="font-mono text-xs uppercase tracking-[0.28em] text-blue-200">
-            ./projects
-          </p>
-          <h1 className="mt-5 max-w-4xl text-[clamp(2.5rem,8vw,6rem)] font-black uppercase leading-[0.9] tracking-tight">
-            Things I am
-            <span className="block text-blue-200">building.</span>
-          </h1>
-          <p className="mt-6 max-w-2xl text-base leading-8 text-white/64">
-            A growing collection of personal projects designed to show product
-            thinking, interface craft, full-stack structure, and practical
-            software development.
-          </p>
-        </section>
+      <section className="grid gap-px overflow-hidden border border-white/10 bg-white/10 md:grid-cols-2 xl:grid-cols-3">
+        {projects.map((project, index) => (
+          <Link
+            key={project.slug}
+            href={`/projects/${project.slug}`}
+            className="project-card group relative min-h-[360px] overflow-hidden bg-[#030711] p-6 transition hover:bg-[#071125] sm:p-8"
+          >
+            <div className="project-code absolute inset-0 opacity-0 transition duration-500 group-hover:opacity-100">
+              {[
+                `const project = "${project.slug}";`,
+                `status: "${project.status.toLowerCase()}";`,
+                `stack: [${project.stack.slice(0, 3).join(", ")}];`,
+                "return solve(realWorldProblem);",
+              ].map((code) => (
+                <span
+                  key={code}
+                  className="block py-3 font-mono text-[9px] text-blue-200/20"
+                >
+                  {code}
+                </span>
+              ))}
+            </div>
 
-        <section className="grid gap-4 pb-16 md:grid-cols-2 xl:grid-cols-3">
-          {projects.map((project, index) => (
-            <Link
-              key={project.slug}
-              href={`/projects/${project.slug}`}
-              className="code-chip group relative overflow-hidden border border-blue-200/14 bg-black/38 p-5 backdrop-blur-md transition hover:-translate-y-1 hover:border-blue-200/50 hover:bg-blue-500/10 hover:shadow-[0_0_70px_rgba(37,99,235,0.2)]"
-            >
-              <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(96,165,250,0.1),transparent_42%)] opacity-0 transition group-hover:opacity-100" />
-              <div className="relative z-10">
-                <div className="flex items-center justify-between gap-4">
-                  <span className="font-mono text-xs text-blue-200">
-                    0{index + 1}
-                  </span>
-                  <span className="border border-white/10 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.16em] text-white/52">
-                    {project.status}
-                  </span>
-                </div>
-                <h2 className="mt-8 text-2xl font-black uppercase tracking-tight">
+            <div className="relative z-10 flex h-full flex-col">
+              <div className="flex items-center justify-between font-mono text-[10px]">
+                <span className="text-cyan-300">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <span className="border border-white/10 px-2 py-1 text-white/45">
+                  {project.status}
+                </span>
+              </div>
+
+              <div className="mt-auto pt-20">
+                <h2 className="max-w-xs text-2xl font-semibold">
                   {project.title}
                 </h2>
-                <p className="mt-4 min-h-24 text-sm leading-7 text-white/62">
+                <p className="mt-3 line-clamp-3 text-sm leading-6 text-white/50">
                   {project.summary}
                 </p>
-                <div className="mt-6 flex flex-wrap gap-2">
+                <div className="mt-5 flex flex-wrap gap-2">
                   {project.stack.slice(0, 3).map((item) => (
                     <span
                       key={item}
-                      className="bg-blue-500/10 px-3 py-2 font-mono text-[10px] uppercase tracking-[0.14em] text-blue-100"
+                      className="border border-blue-300/15 bg-blue-500/[0.06] px-2 py-1 font-mono text-[9px] text-blue-100/70"
                     >
                       {item}
                     </span>
                   ))}
                 </div>
+                <div className="mt-6 flex items-center gap-2 font-mono text-[10px] uppercase text-cyan-300">
+                  View case study
+                  <ArrowRight
+                    size={13}
+                    className="transition group-hover:translate-x-1"
+                  />
+                </div>
               </div>
-            </Link>
-          ))}
-        </section>
+            </div>
+          </Link>
+        ))}
+      </section>
+
+      <div className="flex justify-center py-14">
+        <Link
+          href="/#contact"
+          className="primary-action inline-flex h-12 items-center gap-3 bg-blue-600 px-5 font-mono text-xs font-semibold uppercase text-white transition hover:bg-blue-500"
+        >
+          Start a conversation
+          <ArrowRight size={15} />
+        </Link>
+      </div>
     </SciFiPageShell>
   );
 }

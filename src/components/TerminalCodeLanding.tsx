@@ -1,11 +1,21 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
-import { TypewriterHeading } from "@/components/TypewriterHeading";
-import type { MouseEvent, PointerEvent } from "react";
+import {
+  ArrowRight,
+  ArrowUpRight,
+  Check,
+  Layers3,
+  Mail,
+  MonitorSmartphone,
+  Sparkles,
+} from "lucide-react";
+import type { PointerEvent } from "react";
 import { useRef } from "react";
 import {
   SiFastapi,
+  SiGithub,
   SiNextdotjs,
   SiPostgresql,
   SiPython,
@@ -14,86 +24,114 @@ import {
   SiTailwindcss,
   SiTypescript,
 } from "react-icons/si";
-
-const logs = [
-  "booting portfolio_shell",
-  "loading react.next.typescript",
-  "compiling clean interfaces",
-  "deploying real-world projects",
-];
-
-const codeRows = [
-  "const craft = 'frontend';",
-  "npm run build --portfolio",
-  "type Stack = React | Next | TS",
-  "deploy('proximus-shev')",
-  "interface Project { polish: true }",
-  "git commit -m 'ship details'",
-];
+import { PortfolioHeader } from "@/components/PortfolioHeader";
+import { SciFiBackground } from "@/components/SciFiBackground";
+import { TypewriterHeading } from "@/components/TypewriterHeading";
+import { projects } from "@/data/projects";
 
 const backgroundCode = [
-  "const app = createPortfolio({ stack: 'next' });",
-  "export type ProjectStatus = 'draft' | 'live';",
-  "function ship(feature) { return test(feature); }",
+  "const craft = createInterface();",
+  "type ProjectStatus = 'planned' | 'live';",
   "await deploy('proximus-shev');",
-  "const skills = ['React', 'Next.js', 'TypeScript'];",
+  "def solve(problem): return build(problem)",
   "interface Developer { focus: string[]; }",
-  "def build_ui(system): return polish(system)",
-  "from portfolio import projects, contact",
-  "async def main(): await launch_site()",
-  "class Developer: pass",
-  "if __name__ == '__main__': build()",
-  "std::vector<std::string> stack = {'ts', 'cpp'};",
-  "auto result = compile(portfolio);",
-  "#include <iostream>",
-  "template <typename T> void render(T component);",
-  "console.log('clean user flows');",
-  "document.querySelector('#work')",
-  "const response = await fetch('/api/projects');",
-  "type Route = '/' | '/projects' | '/contact';",
-  "git push origin main",
+  "std::vector<std::string> stack;",
   "SELECT project, stack FROM portfolio;",
-  "CREATE INDEX idx_projects_status;",
-  "docker compose up --build",
-  "pnpm lint && pnpm build",
+  "git commit -m 'ship with purpose'",
+  "async function build() { return impact; }",
+  "from portfolio import ideas, execution",
+  "const quality = tests.every(Boolean);",
+  "#include <iostream>",
 ];
 
-const floatingCode = Array.from({ length: 3 }, (_, layer) =>
+const floatingCode = Array.from({ length: 4 }, (_, layer) =>
   backgroundCode.map((row, index) => ({ row, index, layer })),
 ).flat();
 
 const tools = [
-  { name: "React", icon: SiReact },
-  { name: "Next.js", icon: SiNextdotjs },
-  { name: "TypeScript", icon: SiTypescript },
-  { name: "Python", icon: SiPython },
-  { name: "Tailwind", icon: SiTailwindcss },
-  { name: "Supabase", icon: SiSupabase },
-  { name: "OpenAI", icon: null },
-  { name: "FastAPI", icon: SiFastapi },
-  { name: "PostgreSQL", icon: SiPostgresql },
+  {
+    name: "React",
+    icon: SiReact,
+    color: "text-cyan-300",
+    accent: "stack-react",
+  },
+  {
+    name: "Next.js",
+    icon: SiNextdotjs,
+    color: "text-white",
+    accent: "stack-next",
+  },
+  {
+    name: "TypeScript",
+    icon: SiTypescript,
+    color: "text-blue-400",
+    accent: "stack-typescript",
+  },
+  {
+    name: "Python",
+    icon: SiPython,
+    color: "text-yellow-300",
+    accent: "stack-python",
+  },
+  {
+    name: "Tailwind CSS",
+    icon: SiTailwindcss,
+    color: "text-cyan-300",
+    accent: "stack-tailwind",
+  },
+  {
+    name: "Supabase",
+    icon: SiSupabase,
+    color: "text-emerald-300",
+    accent: "stack-supabase",
+  },
+  {
+    name: "PostgreSQL",
+    icon: SiPostgresql,
+    color: "text-blue-300",
+    accent: "stack-postgresql",
+  },
+  {
+    name: "FastAPI",
+    icon: SiFastapi,
+    color: "text-teal-300",
+    accent: "stack-fastapi",
+  },
+];
+
+const services = [
+  {
+    icon: MonitorSmartphone,
+    title: "Frontend Engineering",
+    copy: "Responsive interfaces shaped around clarity, speed, and effortless user flows.",
+    accent: "capability-cyan",
+  },
+  {
+    icon: Layers3,
+    title: "Full-Stack Systems",
+    copy: "Connected products with dependable APIs, databases, authentication, and deployment.",
+    accent: "capability-blue",
+  },
+  {
+    icon: Sparkles,
+    title: "Product Experience",
+    copy: "Thoughtful interactions and visual systems that make useful software feel memorable.",
+    accent: "capability-violet",
+  },
 ];
 
 export function TerminalCodeLanding() {
   const mainRef = useRef<HTMLElement>(null);
   const frameRef = useRef<number | null>(null);
 
-  const updateGlowPosition = (
-    event: MouseEvent<HTMLElement> | PointerEvent<HTMLElement>,
-  ) => {
+  const updateGlowPosition = (event: PointerEvent<HTMLElement>) => {
     if (frameRef.current !== null) {
       window.cancelAnimationFrame(frameRef.current);
     }
 
     frameRef.current = window.requestAnimationFrame(() => {
-      const target = mainRef.current;
-
-      if (!target) {
-        return;
-      }
-
-      target.style.setProperty("--mouse-x", `${event.clientX}px`);
-      target.style.setProperty("--mouse-y", `${event.clientY}px`);
+      mainRef.current?.style.setProperty("--mouse-x", `${event.clientX}px`);
+      mainRef.current?.style.setProperty("--mouse-y", `${event.clientY}px`);
     });
   };
 
@@ -102,68 +140,59 @@ export function TerminalCodeLanding() {
       ref={mainRef}
       onPointerDown={updateGlowPosition}
       onPointerMove={updateGlowPosition}
-      onMouseMove={updateGlowPosition}
-      className="mouse-glow relative isolate min-h-screen overflow-x-hidden bg-[#05070d] text-white"
+      className="mouse-glow relative isolate min-h-screen overflow-x-clip bg-[#02040b] text-white"
     >
-      <div className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_50%_0%,rgba(59,130,246,0.26),transparent_28%),linear-gradient(180deg,#05070d_0%,#020617_58%,#000_100%)]" />
-      <div className="absolute inset-0 z-0 bg-[linear-gradient(rgba(96,165,250,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(96,165,250,0.08)_1px,transparent_1px)] bg-[size:44px_44px] opacity-40" />
+      <div className="site-atmosphere pointer-events-none fixed inset-0" />
+      <div className="site-grid pointer-events-none fixed inset-0" />
+
       <div
-        className="code-rain pointer-events-none absolute inset-0"
+        className="code-rain pointer-events-none fixed inset-0"
         aria-hidden="true"
       >
         {floatingCode.map(({ row, index, layer }) => (
           <span
             key={`${row}-${index}-${layer}`}
-            className="absolute whitespace-nowrap font-mono text-[10px] tracking-[0.18em] text-blue-100/70"
+            className="absolute whitespace-nowrap font-mono text-[9px] text-blue-100/70"
             style={{
-              left: `${(index * 23 + layer * 11) % 98}%`,
-              top: `${(index * 11 + layer * 29) % 94}%`,
-              animationDelay: `${index * 0.22 + layer * 0.8}s`,
-              animationDuration: `${7 + ((index + layer) % 7) * 1.15}s`,
+              left: `${(index * 29 + layer * 17) % 96}%`,
+              top: `${(index * 13 + layer * 23) % 94}%`,
+              animationDelay: `${index * 0.28 + layer * 0.7}s`,
+              animationDuration: `${8 + ((index + layer) % 5) * 1.4}s`,
             }}
           >
             {row}
           </span>
         ))}
       </div>
-      <div className="absolute left-1/2 top-0 z-[2] hidden h-full w-px bg-blue-300/15 shadow-[0_0_80px_18px_rgba(59,130,246,0.22)] md:block" />
 
-      <header className="relative z-20 flex items-center justify-between px-5 py-5 sm:px-8 lg:px-14">
-        <a
-          href="#top"
-          className="brand-hover relative overflow-hidden py-2 font-mono text-xs font-bold uppercase tracking-[0.24em] text-blue-100 transition duration-300 hover:tracking-[0.3em] hover:text-white sm:text-sm sm:tracking-[0.28em]"
-        >
-          Proximus Shev
-        </a>
-        <div className="hidden rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 font-mono text-xs text-white/55 md:block">
-          status: available_for_projects
-        </div>
-      </header>
+      <PortfolioHeader />
 
       <section
         id="top"
-        className="relative z-10 mx-auto grid w-full max-w-7xl items-center gap-8 px-5 pb-10 pt-5 sm:px-8 sm:pb-14 sm:pt-8 lg:min-h-[calc(100vh-80px)] lg:grid-cols-[0.92fr_1.08fr] lg:gap-10 lg:px-14"
+        className="relative z-10 mx-auto grid min-h-[calc(100svh-68px)] w-full max-w-[1400px] items-center gap-10 px-5 py-12 sm:px-8 lg:grid-cols-[minmax(0,0.96fr)_minmax(0,1.04fr)] lg:px-12 lg:py-16"
       >
-        <div className="animate-fade-up relative text-left">
-          <p className="identity-path relative z-10 inline-flex max-w-full items-center gap-2 overflow-hidden border border-blue-200/20 bg-blue-500/10 px-3 py-2 font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-blue-100 shadow-[0_0_32px_rgba(37,99,235,0.16)] transition duration-300 hover:-translate-y-0.5 hover:border-blue-200/55 hover:bg-blue-400/15 hover:text-white hover:shadow-[0_0_44px_rgba(37,99,235,0.34)] sm:gap-3 sm:px-4 sm:text-xs sm:tracking-[0.28em]">
-            <span className="text-blue-300">./</span>
-            <span className="truncate">John-Amoako-Appiah</span>
-            <span className="identity-cursor h-4 w-2 bg-blue-200" />
+        <SciFiBackground variant="orbital" priority fullBleed />
+
+        <div className="relative z-10 min-w-0 animate-fade-up">
+          <p className="identity-path inline-flex max-w-full items-center gap-3 overflow-hidden border border-blue-300/25 bg-blue-500/10 px-4 py-2 font-mono text-[11px] font-semibold uppercase text-blue-100">
+            <span className="text-cyan-300">&gt;_</span>
+            <span className="truncate">John Amoako Appiah</span>
+            <span className="h-2 w-2 rounded-full bg-cyan-400 shadow-[0_0_14px_#22d3ee]" />
           </p>
-          <div className="terminal-heading-wrap group relative mt-5 max-w-3xl overflow-hidden border border-blue-200/0 p-1 transition duration-500 hover:border-blue-200/25 sm:mt-6">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_10%,rgba(96,165,250,0.2),transparent_32%),linear-gradient(90deg,rgba(37,99,235,0.08),transparent)] opacity-0 transition duration-500 group-hover:opacity-100" />
+
+          <div className="terminal-heading-wrap group relative mt-5 min-w-0 max-w-[640px] overflow-hidden">
             <div
               className="terminal-code-layer absolute inset-0 opacity-0 transition duration-500 group-hover:opacity-100"
               aria-hidden="true"
             >
-              {codeRows.map((row, index) => (
+              {backgroundCode.slice(0, 6).map((row, index) => (
                 <span
                   key={row}
-                  className="absolute whitespace-nowrap font-mono text-[10px] uppercase tracking-[0.22em] text-blue-100/35"
+                  className="absolute whitespace-nowrap font-mono text-[9px] text-blue-100/35"
                   style={{
-                    left: `${index % 2 === 0 ? 2 : 38}%`,
-                    top: `${8 + index * 14}%`,
-                    animationDelay: `${index * 0.28}s`,
+                    left: `${index % 2 === 0 ? 2 : 40}%`,
+                    top: `${6 + index * 15}%`,
+                    animationDelay: `${index * 0.3}s`,
                   }}
                 >
                   {row}
@@ -172,85 +201,401 @@ export function TerminalCodeLanding() {
             </div>
             <TypewriterHeading />
           </div>
-          <p className="relative z-10 mt-5 max-w-xl text-sm leading-7 text-white/66 sm:text-base lg:text-lg lg:leading-8">
+
+          <p className="mt-5 max-w-xl text-sm leading-7 text-white/65 sm:text-base">
             Frontend, full-stack, and software development brought together in
-            focused portfolio projects with clear user flows.
+            focused products with clear user flows and dependable code.
           </p>
-          <div className="relative z-10 mt-6 flex flex-wrap gap-2 sm:gap-3 lg:mt-8">
+
+          <div className="mt-7 flex flex-wrap gap-3">
             <Link
               href="/projects"
-              className="code-chip relative overflow-hidden border border-blue-200/40 bg-blue-500/20 px-3 py-2.5 font-mono text-[10px] uppercase tracking-[0.16em] text-blue-50 transition duration-300 hover:-translate-y-1 hover:border-blue-100 hover:bg-blue-400/25 hover:shadow-[0_0_28px_rgba(59,130,246,0.26)] sm:px-4 sm:py-3 sm:text-xs sm:tracking-[0.18em]"
+              className="primary-action inline-flex h-12 items-center gap-3 bg-blue-600 px-5 font-mono text-xs font-semibold uppercase text-white shadow-[0_0_28px_rgba(37,99,235,0.32)] transition hover:bg-blue-500"
             >
               View Projects
+              <ArrowRight size={16} />
             </Link>
-            {tools.map(({ name, icon: Icon }) => (
-              <span
-                className="tool-chip code-chip group relative grid min-h-10 min-w-24 place-items-center overflow-hidden border border-blue-200/18 bg-blue-500/10 px-3 py-2.5 font-mono text-[10px] uppercase tracking-[0.16em] text-blue-100 transition duration-300 hover:-translate-y-1 hover:border-blue-200/60 hover:bg-blue-400/15 hover:shadow-[0_0_34px_rgba(59,130,246,0.3)] sm:min-h-11 sm:min-w-28 sm:px-4 sm:py-3 sm:text-xs sm:tracking-[0.18em]"
-                key={name}
-                title={name}
-              >
-                <span className="pointer-events-none absolute inset-0 opacity-0 transition duration-300 hover:opacity-100" />
-                <span className="tool-name transition duration-300 group-hover:scale-75 group-hover:opacity-0">
-                  {name}
+            <a
+              href="mailto:jaappiah30@gmail.com"
+              className="secondary-action inline-flex h-12 items-center gap-3 border border-white/20 bg-black/20 px-5 font-mono text-xs font-semibold uppercase text-white/80 transition hover:border-cyan-300/60 hover:text-white"
+            >
+              Email Me
+              <Mail size={15} />
+            </a>
+          </div>
+
+          <div className="mt-8">
+            <p className="mb-3 flex items-center gap-2 font-mono text-[10px] uppercase text-white/45">
+              Tech Stack
+              <span className="h-1.5 w-1.5 rounded-full bg-cyan-400" />
+            </p>
+            <div className="flex max-w-2xl flex-wrap gap-2">
+              {tools.map(({ name, icon: Icon, color }) => (
+                <span
+                  key={name}
+                  title={name}
+                  className="tool-chip group inline-flex h-9 items-center gap-2 border border-blue-300/20 bg-[#07101f]/80 px-3 font-mono text-[10px] text-white/70 transition hover:-translate-y-0.5 hover:border-cyan-300/55 hover:bg-blue-500/10 hover:text-white"
+                >
+                  <Icon className={`text-base ${color}`} />
+                  <span className="hidden sm:inline">{name}</span>
                 </span>
-                {Icon ? (
-                  <Icon className="tool-icon absolute text-2xl text-blue-100 opacity-0 drop-shadow-[0_0_14px_rgba(147,197,253,0.7)] transition duration-300 group-hover:scale-110 group-hover:opacity-100" />
-                ) : (
-                  <span className="tool-icon absolute grid h-7 w-7 place-items-center rounded-full border border-blue-100/70 text-sm font-black text-blue-100 opacity-0 shadow-[0_0_20px_rgba(147,197,253,0.42)] transition duration-300 group-hover:scale-110 group-hover:opacity-100">
-                    AI
-                  </span>
-                )}
-              </span>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
 
-        <aside className="terminal-panel animate-fade-up-delay-2 relative overflow-hidden border border-blue-200/18 bg-black/45 p-3 font-mono shadow-[0_0_70px_rgba(37,99,235,0.16)] backdrop-blur-md transition duration-500 hover:border-blue-200/45 hover:shadow-[0_0_96px_rgba(37,99,235,0.24)] sm:p-4">
-          <div
-            className="terminal-code-layer pointer-events-none absolute inset-0 opacity-35"
-            aria-hidden="true"
-          >
-            {codeRows.concat(logs).map((row, index) => (
-              <span
-                key={`${row}-panel-${index}`}
-                className="absolute whitespace-nowrap font-mono text-[10px] uppercase tracking-[0.2em] text-blue-100/25"
-                style={{
-                  left: `${(index * 19) % 70}%`,
-                  top: `${6 + ((index * 11) % 78)}%`,
-                  animationDelay: `${index * 0.32}s`,
-                }}
-              >
-                {row}
-              </span>
-            ))}
-          </div>
-          <div className="relative z-10 flex items-center gap-2 border-b border-white/10 pb-3 sm:pb-4">
-            <span className="h-2.5 w-2.5 rounded-full bg-red-400 sm:h-3 sm:w-3" />
-            <span className="h-2.5 w-2.5 rounded-full bg-yellow-300 sm:h-3 sm:w-3" />
-            <span className="h-2.5 w-2.5 rounded-full bg-green-400 sm:h-3 sm:w-3" />
-            <span className="ml-3 text-xs text-white/40">portfolio.tsx</span>
-          </div>
-          <div className="relative z-10 space-y-2 py-4 text-xs leading-6 text-white/74 sm:space-y-3 sm:py-5 sm:text-sm lg:space-y-4 lg:py-6 lg:leading-7">
-            {logs.map((log, index) => (
-              <p
-                className="rounded border border-transparent bg-black/20 px-3 py-2 transition hover:border-blue-200/25 hover:bg-blue-500/10 hover:text-blue-50"
-                key={log}
-              >
-                <span className="text-blue-300">0{index + 1}</span>{" "}
-                <span className="text-white/35">$</span> {log}
-              </p>
-            ))}
-            <pre className="hidden overflow-hidden rounded border border-blue-200/15 bg-black/45 p-4 text-xs leading-6 text-blue-100 shadow-[inset_0_0_30px_rgba(37,99,235,0.08)] transition hover:border-blue-200/40 hover:bg-blue-500/10 sm:block">
-              {`const developer = {
-  name: "John Amoako Appiah",
-  brand: "Proximus Shev",
-  focus: ["frontend", "full-stack", "software"],
-  nextProject: "portfolio ecosystem"
-};`}
-            </pre>
-          </div>
-        </aside>
+        <CodeEditor />
+
+        <a
+          href="#about"
+          className="absolute bottom-5 left-1/2 z-10 hidden -translate-x-1/2 flex-col items-center gap-2 font-mono text-[9px] uppercase text-white/35 transition hover:text-cyan-300 lg:flex"
+        >
+          Scroll to explore
+          <span className="flex h-7 w-4 justify-center rounded-full border border-cyan-300/60 pt-1">
+            <span className="h-1.5 w-1 rounded-full bg-cyan-300" />
+          </span>
+        </a>
       </section>
+
+      <section
+        id="about"
+        className="section-band relative z-10 border-y border-white/10 bg-[#050914]/80"
+      >
+        <div className="mx-auto grid w-full max-w-[1400px] gap-10 px-5 py-20 sm:px-8 lg:grid-cols-[0.72fr_1.28fr] lg:px-12 lg:py-24">
+          <div>
+            <p className="section-label">01 / About</p>
+            <h2 className="section-title mt-4">
+              Built with intent.
+              <span className="block text-blue-300">Made to work.</span>
+            </h2>
+          </div>
+          <div className="grid gap-5 sm:grid-cols-2">
+            <p className="text-base leading-8 text-white/65 sm:text-lg">
+              I&apos;m John, a developer focused on turning ideas into polished,
+              practical digital products. I care about the details users notice
+              and the engineering decisions they never have to.
+            </p>
+            <div className="space-y-3 font-mono text-xs text-white/55">
+              {[
+                "Clear product thinking",
+                "Responsive, accessible interfaces",
+                "Maintainable application structure",
+                "Purposeful motion and interaction",
+              ].map((item) => (
+                <p
+                  key={item}
+                  className="flex items-center gap-3 border-b border-white/10 pb-3"
+                >
+                  <Check size={14} className="text-cyan-300" />
+                  {item}
+                </p>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section
+        id="services"
+        className="capabilities-section relative z-10 overflow-hidden border-y border-white/10"
+      >
+        <SciFiBackground variant="network" intensity="soft" />
+        <div className="relative z-10 mx-auto w-full max-w-[1400px] px-5 py-20 sm:px-8 lg:px-12 lg:py-24">
+          <div className="mb-10 max-w-3xl">
+            <p className="section-label">02 / Capabilities</p>
+            <h2 className="section-title mt-4">
+              From interface to infrastructure.
+            </h2>
+          </div>
+          <div className="grid gap-4 md:grid-cols-3">
+            {services.map(({ icon: Icon, title, copy, accent }, index) => (
+              <Link
+                key={title}
+                href="#contact"
+                className={`service-item ${accent} group flex min-h-64 flex-col overflow-hidden border border-white/10 bg-black/15 p-5 transition sm:p-6`}
+              >
+                <div className="flex items-start justify-between">
+                  <span className="service-icon grid h-11 w-11 place-items-center border border-cyan-300/20 bg-cyan-400/[0.06] text-cyan-300">
+                    <Icon size={21} />
+                  </span>
+                  <span className="font-mono text-[9px] text-white/30">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                </div>
+                <h3 className="mt-8 text-base font-semibold sm:text-lg">
+                  {title}
+                </h3>
+                <p className="mt-3 text-sm leading-7 text-white/55">{copy}</p>
+                <div className="mt-auto flex items-end justify-between pt-8">
+                  <span className="service-accent h-px w-8 bg-cyan-300 transition-all group-hover:w-16" />
+                  <ArrowUpRight
+                    size={15}
+                    className="service-arrow text-white/55 transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                  />
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section
+        id="tech-stack"
+        className="section-band relative z-10 scroll-mt-20 overflow-hidden border-y border-white/10 bg-[#050914]/80"
+      >
+        <SciFiBackground variant="network" intensity="soft" />
+        <div className="relative z-10 mx-auto w-full max-w-[1400px] px-5 py-20 sm:px-8 lg:px-12 lg:py-24">
+          <div className="grid gap-6 lg:grid-cols-[0.8fr_1.2fr] lg:items-end">
+            <div>
+              <p className="section-label">03 / Tech Stack</p>
+              <h2 className="section-title mt-4">
+                The tools behind
+                <span className="block text-blue-300">the build.</span>
+              </h2>
+            </div>
+            <p className="max-w-2xl text-base leading-8 text-white/60 lg:justify-self-end">
+              A practical toolkit for building responsive interfaces, connected
+              systems, Python services, and production-ready applications.
+            </p>
+          </div>
+
+          <div className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            {tools.map(({ name, icon: Icon, color, accent }, index) => (
+              <article
+                key={name}
+                className={`tech-card ${accent} group flex min-h-40 flex-col justify-between overflow-hidden border border-white/10 bg-[#030711] p-5 transition sm:p-6`}
+              >
+                <div className="flex items-start justify-between">
+                  <Icon
+                    className={`text-3xl transition group-hover:scale-110 ${color}`}
+                  />
+                  <span className="font-mono text-[9px] text-white/30">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                </div>
+                <div>
+                  <h3 className="font-mono text-sm font-semibold">{name}</h3>
+                  <div className="tech-accent mt-3 h-px w-8 bg-blue-400 transition-all group-hover:w-16" />
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section
+        id="projects"
+        className="section-band relative z-10 overflow-hidden border-y border-white/10 bg-[#050914]/80"
+      >
+        <SciFiBackground variant="horizon" intensity="soft" />
+        <div className="relative z-10 mx-auto w-full max-w-[1400px] px-5 py-20 sm:px-8 lg:px-12 lg:py-24">
+          <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
+            <div>
+              <p className="section-label">04 / Selected Projects</p>
+              <h2 className="section-title mt-4">
+                Work in progress. Ideas in motion.
+              </h2>
+            </div>
+            <Link
+              href="/projects"
+              className="inline-flex items-center gap-2 font-mono text-xs uppercase text-cyan-300 transition hover:text-white"
+            >
+              View all projects
+              <ArrowRight size={15} />
+            </Link>
+          </div>
+
+          <div className="mt-10 grid gap-px overflow-hidden border border-white/10 bg-white/10 lg:grid-cols-3">
+            {projects.slice(0, 3).map((project, index) => (
+              <Link
+                key={project.slug}
+                href={`/projects/${project.slug}`}
+                className="project-card group relative min-h-80 overflow-hidden bg-[#030711] p-6 transition hover:bg-[#071125] sm:p-8"
+              >
+                <div className="project-code absolute inset-0 opacity-0 transition duration-500 group-hover:opacity-100">
+                  {backgroundCode
+                    .slice(index * 2, index * 2 + 4)
+                    .map((code) => (
+                      <span
+                        key={code}
+                        className="block py-3 font-mono text-[9px] text-blue-200/20"
+                      >
+                        {code}
+                      </span>
+                    ))}
+                </div>
+                <div className="relative z-10 flex h-full flex-col">
+                  <div className="flex items-center justify-between font-mono text-[10px]">
+                    <span className="text-cyan-300">0{index + 1}</span>
+                    <span className="border border-white/10 px-2 py-1 text-white/45">
+                      {project.status}
+                    </span>
+                  </div>
+                  <div className="mt-auto pt-20">
+                    <h3 className="max-w-xs text-2xl font-semibold">
+                      {project.title}
+                    </h3>
+                    <p className="mt-3 line-clamp-3 text-sm leading-6 text-white/50">
+                      {project.summary}
+                    </p>
+                    <div className="mt-6 flex items-center gap-2 font-mono text-[10px] uppercase text-blue-300">
+                      View case study
+                      <ArrowRight
+                        size={13}
+                        className="transition group-hover:translate-x-1"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section
+        id="contact"
+        className="contact-section relative z-10 overflow-hidden border-t border-white/10"
+      >
+        <SciFiBackground variant="horizon" />
+        <div className="relative z-10 mx-auto grid w-full max-w-[1400px] gap-12 px-5 py-20 sm:px-8 lg:grid-cols-[1fr_auto] lg:items-end lg:px-12 lg:py-28">
+          <div>
+            <p className="section-label">05 / Contact</p>
+            <h2 className="section-title mt-4 max-w-4xl">
+              Have an idea worth building?
+              <span className="block text-blue-300">
+                Let&apos;s make it real.
+              </span>
+            </h2>
+            <a
+              href="mailto:jaappiah30@gmail.com"
+              className="contact-email mt-7 inline-flex items-center gap-2 text-lg font-medium text-white/75 underline decoration-blue-400 underline-offset-8 transition sm:text-xl"
+            >
+              jaappiah30@gmail.com
+              <ArrowUpRight className="h-4 w-4 sm:h-[18px] sm:w-[18px]" />
+            </a>
+          </div>
+
+          <div className="flex gap-6 sm:gap-8">
+            <a
+              href="mailto:jaappiah30@gmail.com"
+              aria-label="Send John an email"
+              className="contact-method contact-method-email group flex flex-col items-center gap-4 text-sm text-white/65"
+            >
+              <span className="icon-button contact-method-icon grid h-20 w-20 place-items-center border border-white/15 text-blue-300 transition sm:h-24 sm:w-24">
+                <Mail className="h-8 w-8 sm:h-9 sm:w-9" />
+              </span>
+              Email
+            </a>
+            <a
+              href="https://github.com/jaashev"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="John's GitHub profile"
+              className="contact-method contact-method-github group flex flex-col items-center gap-4 text-sm text-white/65"
+            >
+              <span className="icon-button contact-method-icon grid h-20 w-20 place-items-center border border-white/15 text-white/80 transition sm:h-24 sm:w-24">
+                <SiGithub className="text-[2rem] sm:text-4xl" />
+              </span>
+              GitHub
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <footer className="site-footer relative z-10 border-t border-white/10">
+        <div className="mx-auto flex w-full max-w-[1400px] flex-col gap-5 px-5 py-6 text-white/35 sm:flex-row sm:items-center sm:justify-between sm:px-8 lg:px-12">
+          <div className="flex items-center gap-3">
+            <span className="footer-mark grid h-9 w-9 place-items-center rounded-full border border-blue-300/20">
+              <Image
+                src="/ps-logo.png"
+                alt=""
+                width={26}
+                height={22}
+                className="h-5 w-6 object-contain"
+              />
+            </span>
+            <strong className="text-xs font-semibold text-white/70">
+              Proximus Shev
+            </strong>
+            <span className="hidden text-xs sm:inline">
+              Building thoughtful products that solve real problems.
+            </span>
+          </div>
+          <p className="font-mono text-[9px] uppercase">
+            &copy; 2026 Proximus Shev
+          </p>
+        </div>
+      </footer>
     </main>
+  );
+}
+
+function CodeEditor() {
+  return (
+    <aside className="editor-shell animate-fade-up-delay-2 relative z-10 min-w-0 overflow-hidden border border-blue-400/50 bg-[#030611]/92 font-mono shadow-[0_0_70px_rgba(37,99,235,0.2)]">
+      <div className="editor-glow pointer-events-none absolute inset-0" />
+      <div className="relative z-10 flex h-12 items-center border-b border-white/10 px-4">
+        <div className="flex gap-2">
+          <span className="h-3 w-3 rounded-full bg-rose-400" />
+          <span className="h-3 w-3 rounded-full bg-amber-300" />
+          <span className="h-3 w-3 rounded-full bg-emerald-400" />
+        </div>
+        <span className="mx-auto pr-12 text-[11px] text-white/40">
+          portfolio.tsx
+        </span>
+      </div>
+
+      <div className="relative z-10 grid grid-cols-[42px_1fr] text-[11px] leading-7 sm:grid-cols-[54px_1fr] sm:text-[13px] sm:leading-8">
+        <div className="border-r border-white/10 py-5 text-right text-white/25">
+          {Array.from({ length: 13 }, (_, index) => (
+            <span key={index} className="block pr-3">
+              {String(index + 1).padStart(2, "0")}
+            </span>
+          ))}
+        </div>
+        <pre className="overflow-hidden px-4 py-5 text-white/78 sm:px-5">
+          <code>
+            <span className="text-emerald-300">$</span> booting portfolio.shell
+            {"\n"}
+            <span className="text-emerald-300">$</span> loading
+            react.next.typescript
+            {"\n"}
+            <span className="text-emerald-300">$</span> compiling clean
+            interfaces
+            {"\n"}
+            <span className="text-emerald-300">$</span> deploying real-world
+            projects
+            {"\n\n"}
+            <span className="text-fuchsia-300">const</span>{" "}
+            <span className="text-sky-300">developer</span> = {"{"}
+            {"\n  "}
+            <span className="text-violet-300">name</span>:{" "}
+            <span className="text-amber-100">
+              &apos;John Amoako Appiah&apos;
+            </span>
+            ,{"\n  "}
+            <span className="text-violet-300">focus</span>: [
+            <span className="text-amber-100">&apos;frontend&apos;</span>,{" "}
+            <span className="text-amber-100">&apos;full-stack&apos;</span>],
+            {"\n  "}
+            <span className="text-violet-300">mission</span>:{" "}
+            <span className="text-amber-100">
+              &apos;Build useful solutions&apos;
+            </span>
+            ,{"\n  "}
+            <span className="text-violet-300">nextProject</span>:{" "}
+            <span className="text-amber-100">&apos;Portfolio v2.0&apos;</span>
+            {"\n"}
+            {"};"}
+          </code>
+        </pre>
+      </div>
+
+      <div className="relative z-10 flex items-center gap-3 border-t border-white/10 px-4 py-3 text-[10px] text-white/40 sm:text-xs">
+        <Check size={14} className="text-emerald-400" />
+        Ready. Let&apos;s build something meaningful.
+      </div>
+    </aside>
   );
 }
