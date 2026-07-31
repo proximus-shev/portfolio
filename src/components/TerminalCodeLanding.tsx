@@ -44,7 +44,7 @@ const backgroundCode = [
   "#include <iostream>",
 ];
 
-const floatingCode = Array.from({ length: 4 }, (_, layer) =>
+const floatingCode = Array.from({ length: 2 }, (_, layer) =>
   backgroundCode.map((row, index) => ({ row, index, layer })),
 ).flat();
 
@@ -123,15 +123,25 @@ const services = [
 export function TerminalCodeLanding() {
   const mainRef = useRef<HTMLElement>(null);
   const frameRef = useRef<number | null>(null);
+  const glowPositionRef = useRef({ x: 0, y: 0 });
 
   const updateGlowPosition = (event: PointerEvent<HTMLElement>) => {
+    if (event.pointerType !== "mouse") {
+      return;
+    }
+
+    glowPositionRef.current = { x: event.clientX, y: event.clientY };
+
     if (frameRef.current !== null) {
-      window.cancelAnimationFrame(frameRef.current);
+      return;
     }
 
     frameRef.current = window.requestAnimationFrame(() => {
-      mainRef.current?.style.setProperty("--mouse-x", `${event.clientX}px`);
-      mainRef.current?.style.setProperty("--mouse-y", `${event.clientY}px`);
+      const { x, y } = glowPositionRef.current;
+
+      mainRef.current?.style.setProperty("--mouse-x", `${x}px`);
+      mainRef.current?.style.setProperty("--mouse-y", `${y}px`);
+      frameRef.current = null;
     });
   };
 

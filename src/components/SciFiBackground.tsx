@@ -65,7 +65,7 @@ export function SciFiBackground({
         syncActivity();
       },
       {
-        rootMargin: "420px 0px",
+        rootMargin: "120px 0px",
         threshold: 0.01,
       },
     );

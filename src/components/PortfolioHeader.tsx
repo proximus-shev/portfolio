@@ -25,7 +25,7 @@ export function PortfolioHeader() {
   };
 
   return (
-    <header className="site-header sticky top-0 z-50 border-b border-white/10 bg-[#02040b]/88 backdrop-blur-xl">
+    <header className="site-header sticky top-0 z-50 border-b border-white/10 bg-[#02040b]/96">
       <div className="mx-auto flex h-[68px] w-full max-w-[1400px] items-center justify-between px-5 sm:px-8 lg:px-12">
         <Link
           href="/#top"

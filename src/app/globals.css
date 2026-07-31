@@ -159,6 +159,12 @@ html[data-theme="light"] .orbital-field {
   --sci-fi-image-opacity: 0.46;
 }
 
+.sci-fi-background[data-intensity="soft"] .sci-fi-background__grid,
+.sci-fi-background[data-intensity="soft"] .sci-fi-background__tracer {
+  animation: none;
+  transform: none;
+}
+
 .sci-fi-background__image,
 .sci-fi-background__grid,
 .sci-fi-background__tracer,
@@ -354,7 +360,7 @@ html[data-theme="light"] .sci-fi-background__veil {
 }
 
 .section-band {
-  backdrop-filter: blur(14px);
+  background-color: rgba(5, 9, 20, 0.9);
 }
 
 .capabilities-section,
@@ -1047,18 +1053,27 @@ html[data-theme="light"] .stack-next {
 
 .mouse-glow::before {
   background: radial-gradient(
-    360px circle at var(--mouse-x) var(--mouse-y),
+    circle,
     rgba(147, 197, 253, 0.2),
     rgba(37, 99, 235, 0.08) 38%,
     transparent 72%
   );
   content: "";
-  inset: 0;
+  height: 520px;
+  left: 0;
   mix-blend-mode: screen;
   opacity: 0;
   pointer-events: none;
   position: fixed;
+  top: 0;
+  transform: translate3d(
+    calc(var(--mouse-x) - 50%),
+    calc(var(--mouse-y) - 50%),
+    0
+  );
   transition: opacity 180ms ease;
+  width: 520px;
+  will-change: transform;
   z-index: 1;
 }
 
@@ -1067,25 +1082,27 @@ html[data-theme="light"] .stack-next {
 }
 
 .code-rain {
-  mask-image: radial-gradient(
-    360px circle at var(--mouse-x) var(--mouse-y),
-    black 0%,
-    rgba(0, 0, 0, 0.7) 34%,
-    transparent 72%
+  mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    black 14%,
+    rgba(0, 0, 0, 0.78) 68%,
+    transparent
   );
   opacity: 0;
   transition: opacity 180ms ease;
-  -webkit-mask-image: radial-gradient(
-    360px circle at var(--mouse-x) var(--mouse-y),
-    black 0%,
-    rgba(0, 0, 0, 0.7) 34%,
-    transparent 72%
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    black 14%,
+    rgba(0, 0, 0, 0.78) 68%,
+    transparent
   );
   z-index: 2;
 }
 
 .mouse-glow:hover .code-rain {
-  opacity: 0.66;
+  opacity: 0.38;
 }
 
 .terminal-heading-wrap {
@@ -1438,49 +1455,18 @@ html[data-effects="off"] .mouse-glow::before {
     opacity: 0.34;
   }
 
-  .code-rain {
-    mask-image: radial-gradient(
-      240px circle at var(--mouse-x) var(--mouse-y),
-      black,
-      rgba(0, 0, 0, 0.55) 38%,
-      transparent 76%
-    );
-    opacity: 0.02;
-    -webkit-mask-image: radial-gradient(
-      240px circle at var(--mouse-x) var(--mouse-y),
-      black,
-      rgba(0, 0, 0, 0.55) 38%,
-      transparent 76%
-    );
-  }
-
-  .mouse-glow:hover .code-rain {
-    opacity: 0.02;
-  }
-
-  .mouse-glow:active .code-rain {
-    opacity: 0.28;
-  }
-
+  .code-rain,
   .mouse-glow::before {
-    background: radial-gradient(
-      240px circle at var(--mouse-x) var(--mouse-y),
-      rgba(96, 165, 250, 0.18),
-      rgba(37, 99, 235, 0.06) 40%,
-      transparent 74%
-    );
-  }
-
-  .mouse-glow:hover::before {
-    opacity: 0.15;
-  }
-
-  .mouse-glow:active::before {
-    opacity: 0.8;
+    display: none;
   }
 }
 
 @media (hover: none), (pointer: coarse) {
+  .code-rain,
+  .mouse-glow::before {
+    display: none;
+  }
+
   .sci-fi-background__grid,
   .sci-fi-background__tracer {
     animation: none;
