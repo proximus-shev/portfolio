@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import Script from "next/script";
+import { AppIntro } from "@/components/AppIntro";
 import "./globals.css";
 
 const themeInitializer = `
@@ -80,6 +81,7 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
+        <AppIntro />
         {children}
         <Script
           id="theme-initializer"
