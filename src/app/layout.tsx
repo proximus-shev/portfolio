@@ -17,6 +17,36 @@ const themeInitializer = `
   })();
 `;
 
+const homeScrollInitializer = `
+  (function () {
+    function resetHomeScroll() {
+      if (window.location.pathname !== "/") {
+        return;
+      }
+
+      if ("scrollRestoration" in window.history) {
+        window.history.scrollRestoration = "manual";
+      }
+
+      if (window.location.hash) {
+        window.history.replaceState(
+          null,
+          "",
+          window.location.pathname + window.location.search
+        );
+      }
+
+      window.scrollTo(0, 0);
+    }
+
+    resetHomeScroll();
+
+    window.addEventListener("pageshow", function () {
+      window.requestAnimationFrame(resetHomeScroll);
+    });
+  })();
+`;
+
 const geistSans = localFont({
   src: "./fonts/geist-latin.woff2",
   variable: "--font-geist-sans",
@@ -55,6 +85,11 @@ export default function RootLayout({
           id="theme-initializer"
           strategy="beforeInteractive"
           dangerouslySetInnerHTML={{ __html: themeInitializer }}
+        />
+        <Script
+          id="home-scroll-initializer"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{ __html: homeScrollInitializer }}
         />
       </body>
     </html>

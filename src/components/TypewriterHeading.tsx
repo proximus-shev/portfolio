@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 const phrases = [
   { first: "looks sharp", second: "and works." },
   { first: "stays concise", second: "and solves." },
-  { first: "scales cleanly", second: "and performs." },
+  { first: "runs fast", second: "and scales." },
 ];
 
 export function TypewriterHeading() {
