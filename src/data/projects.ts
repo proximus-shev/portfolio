@@ -111,13 +111,13 @@ export const projects: Project[] = [
     problem:
       "Personal work needs a central home that feels memorable and makes projects easy to explore.",
     solution:
-      "Design a sci-fi terminal-inspired portfolio with project pages and a strong developer identity.",
+      "Build an interactive portfolio with desktop windows, a dedicated phone experience, and accessible project pages in light and dark themes.",
     stack: ["Next.js", "TypeScript", "Tailwind CSS", "React"],
     features: [
-      "Animated landing page",
+      "Desktop windows and phone navigation",
       "Project index",
       "Case-study pages",
-      "Responsive design",
+      "Responsive layouts and light and dark themes",
     ],
   },
 ];

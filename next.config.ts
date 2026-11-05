@@ -8,6 +8,9 @@ const localIpv4Addresses = Object.values(networkInterfaces())
 
 const nextConfig: NextConfig = {
   allowedDevOrigins: localIpv4Addresses,
+  images: {
+    qualities: [75, 90],
+  },
 };
 
 export default nextConfig;

@@ -1,14 +1,11 @@
 import Link from "next/link";
 import { ArrowLeft, ArrowUpRight, Check } from "lucide-react";
 import { notFound } from "next/navigation";
-import { SciFiPageShell } from "@/components/SciFiPageShell";
+import { ProjectPageShell } from "@/components/ProjectPageShell";
+import styles from "@/components/project-pages.module.css";
 import { getProject, projects } from "@/data/projects";
 
-type ProjectPageProps = {
-  params: Promise<{
-    slug: string;
-  }>;
-};
+type ProjectPageProps = { params: Promise<{ slug: string }> };
 
 export function generateStaticParams() {
   return projects.map((project) => ({ slug: project.slug }));
@@ -17,118 +14,43 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: ProjectPageProps) {
   const { slug } = await params;
   const project = getProject(slug);
-
-  if (!project) {
-    return { title: "Project Not Found | John Amoako Appiah" };
-  }
-
+  if (!project) return { title: "Project Not Found | John Amoako Appiah" };
   return {
     title: `${project.title} | John Amoako Appiah`,
     description: project.summary,
+    alternates: { canonical: `/projects/${project.slug}` },
+    openGraph: { title: `${project.title} | John Amoako Appiah`, description: project.summary, url: `/projects/${project.slug}`, images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "Proximus Shev, the portfolio of John Amoako Appiah" }] },
+    twitter: { card: "summary_large_image", title: `${project.title} | John Amoako Appiah`, description: project.summary, images: ["/opengraph-image"] },
   };
 }
 
 export default async function ProjectDetailPage({ params }: ProjectPageProps) {
   const { slug } = await params;
   const project = getProject(slug);
-
-  if (!project) {
-    notFound();
-  }
-
-  return (
-    <SciFiPageShell>
-      <section className="py-12 sm:py-16 lg:py-20">
-        <Link
-          href="/projects"
-          className="inline-flex items-center gap-2 font-mono text-[10px] uppercase text-white/45 transition hover:text-cyan-300"
-        >
-          <ArrowLeft size={14} />
-          All projects
-        </Link>
-
-        <div className="mt-10 grid gap-10 lg:grid-cols-[1fr_0.48fr] lg:items-end">
-          <div>
-            <p className="section-label">./{project.slug}</p>
-            <h1 className="mt-5 max-w-4xl text-5xl font-black uppercase leading-[0.94] sm:text-6xl lg:text-7xl">
-              {project.title}
-            </h1>
-            <p className="mt-6 max-w-2xl text-base leading-8 text-white/60">
-              {project.summary}
-            </p>
-          </div>
-
-          <aside className="border border-white/10 bg-black/25 p-5 font-mono">
-            <div className="flex items-center justify-between border-b border-white/10 pb-4 text-[10px] uppercase">
-              <span className="text-white/35">Status</span>
-              <span className="text-cyan-300">{project.status}</span>
-            </div>
-            <div className="mt-5 flex flex-wrap gap-2">
-              {project.stack.map((item) => (
-                <span
-                  key={item}
-                  className="border border-blue-300/15 bg-blue-500/[0.07] px-3 py-2 text-[9px] text-blue-100/75"
-                >
-                  {item}
-                </span>
-              ))}
-            </div>
-          </aside>
-        </div>
-      </section>
-
-      <section className="grid gap-px border border-white/10 bg-white/10 lg:grid-cols-2">
-        <article className="surface-card bg-[#030711] p-6 sm:p-8">
-          <p className="section-label">The problem</p>
-          <p className="mt-5 leading-8 text-white/65">{project.problem}</p>
-        </article>
-        <article className="surface-card bg-[#030711] p-6 sm:p-8">
-          <p className="section-label">The solution</p>
-          <p className="mt-5 leading-8 text-white/65">{project.solution}</p>
-        </article>
-      </section>
-
-      <section className="py-16 sm:py-20">
-        <p className="section-label">Core features</p>
-        <div className="mt-7 grid gap-px border border-white/10 bg-white/10 sm:grid-cols-2">
-          {project.features.map((feature) => (
-            <div
-              key={feature}
-              className="surface-card flex items-center gap-3 bg-[#030711] px-5 py-5 text-sm text-white/70"
-            >
-              <Check size={15} className="shrink-0 text-cyan-300" />
-              {feature}
-            </div>
-          ))}
-        </div>
-
-        {(project.liveUrl || project.githubUrl) && (
-          <div className="mt-8 flex flex-wrap gap-3">
-            {project.liveUrl && (
-              <a
-                href={project.liveUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="primary-action inline-flex h-11 items-center gap-2 bg-blue-600 px-4 font-mono text-xs uppercase"
-              >
-                Live project
-                <ArrowUpRight size={14} />
-              </a>
-            )}
-            {project.githubUrl && (
-              <a
-                href={project.githubUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="secondary-action inline-flex h-11 items-center gap-2 border border-white/20 px-4 font-mono text-xs uppercase"
-              >
-                Source code
-                <ArrowUpRight size={14} />
-              </a>
-            )}
-          </div>
-        )}
-      </section>
-    </SciFiPageShell>
-  );
+  if (!project) notFound();
+  const planned = project.status === "Planned";
+  return <ProjectPageShell>
+    <section className={styles.hero}>
+      <Link className={styles.back} href="/projects"><ArrowLeft size={17} /> All projects</Link>
+      <div className={styles.detailHeading}><div>
+        <p className={styles.eyebrow}>{planned ? "Project plan" : "Inside the build"}</p>
+        <h1>{project.title}</h1><p className={styles.intro}>{project.summary}</p>
+      </div><aside className={styles.summary} aria-label="Project overview">
+        <div className={styles.summaryStatus}><span>Current stage</span><strong>{project.status}</strong></div>
+        <div className={styles.tags}>{project.stack.map((tool) => <span key={tool}>{tool}</span>)}</div>
+      </aside></div>
+    </section>
+    <section className={styles.columns} aria-label="The thinking behind the project">
+      <article className={styles.sectionCard}><h2>The problem</h2><p>{project.problem}</p></article>
+      <article className={styles.sectionCard}><h2>{planned ? "The approach" : "What I'm building"}</h2><p>{project.solution}</p></article>
+    </section>
+    <section className={styles.features}><h2>{planned ? "Planned features" : "Core features"}</h2>
+      <ul className={styles.featureGrid}>{project.features.map((feature) => <li key={feature}><Check size={18} aria-hidden="true" />{feature}</li>)}</ul>
+      {(project.liveUrl || project.githubUrl) && <div className={styles.externalLinks}>
+        {project.liveUrl && <a className={styles.primaryAction} href={project.liveUrl} target="_blank" rel="noreferrer">Live project <ArrowUpRight size={16} /></a>}
+        {project.githubUrl && <a className={styles.secondaryAction} href={project.githubUrl} target="_blank" rel="noreferrer">Source code <ArrowUpRight size={16} /></a>}
+      </div>}
+    </section>
+    <section className={styles.cta}><div><h2>Let&apos;s talk about your idea.</h2><p>Tell me what you want to build and who it&apos;s for.</p></div><Link className={styles.primaryAction} href="/?app=contact">Get in touch <ArrowUpRight size={17} /></Link></section>
+  </ProjectPageShell>;
 }

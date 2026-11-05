@@ -3,51 +3,55 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
-const INTRO_DURATION_MS = 2050;
-const REDUCED_MOTION_DURATION_MS = 250;
-
 export function AppIntro() {
-  const [isVisible, setIsVisible] = useState(true);
-
+  const [visible, setVisible] = useState(true);
+  const [sequence, setSequence] = useState(0);
   useEffect(() => {
-    const documentRoot = document.documentElement;
-    const prefersReducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
-
-    documentRoot.classList.add("intro-active");
-
-    const timer = window.setTimeout(
-      () => {
-        documentRoot.classList.remove("intro-active");
-        setIsVisible(false);
-      },
-      prefersReducedMotion ? REDUCED_MOTION_DURATION_MS : INTRO_DURATION_MS,
-    );
-
+    let timer = 0;
+    const finish = () => {
+      setVisible(false);
+      document.documentElement.dataset.psBoot = "skip";
+      try {
+        sessionStorage.setItem("ps-os-boot", "seen");
+      } catch {
+        /* Storage is optional. */
+      }
+    };
+    const start = () => {
+      clearTimeout(timer);
+      document.documentElement.dataset.psBoot = "play";
+      setSequence((value) => value + 1);
+      setVisible(true);
+      timer = window.setTimeout(
+        finish,
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches
+          ? 180
+          : 2700,
+      );
+    };
+    const frame = requestAnimationFrame(() => {
+      if (document.documentElement.dataset.psBoot === "skip") setVisible(false);
+      else start();
+    });
+    window.addEventListener("ps:replay-intro", start);
     return () => {
-      window.clearTimeout(timer);
-      documentRoot.classList.remove("intro-active");
+      clearTimeout(timer);
+      cancelAnimationFrame(frame);
+      window.removeEventListener("ps:replay-intro", start);
     };
   }, []);
-
-  if (!isVisible) {
-    return null;
-  }
-
+  if (!visible) return null;
   return (
-    <div className="app-intro" aria-hidden="true">
-      <div className="app-intro__glow" />
-
-      <div className="app-intro__mark">
+    <div key={sequence} className="app-intro ps-os-boot" aria-hidden="true">
+      <div className="ps-os-boot__ring" />
+      <div className="ps-os-boot__mark">
         <Image
           src="/ps-logo.png"
           alt=""
           width={1024}
           height={1024}
           preload
-          sizes="(max-width: 639px) 240px, 420px"
-          className="app-intro__logo"
+          sizes="(max-width: 767px) 92px, 150px"
         />
       </div>
     </div>

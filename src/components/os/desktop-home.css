@@ -1,0 +1,288 @@
+/* Shared home appearance keeps phone and desktop on the same theme palette. */
+.proximus-os {
+  --home-ink: #ffffff;
+  --home-muted: #ffffff;
+  --home-border: #ffffff70;
+  --home-glass-night: linear-gradient(180deg, #ffffff24 0%, #ffffff0a 18%, #12151c24 64%, #02030738 100%), linear-gradient(120deg, #ffffff18 0%, transparent 38%, #ffffff08 62%, transparent 100%);
+  --home-glass-day: linear-gradient(180deg, #ffffff61 0%, #ffffff2e 20%, #dce2e821 65%, #7e89951a 100%), linear-gradient(120deg, #ffffff42 0%, transparent 40%, #ffffff1c 66%, transparent 100%);
+  --home-glass: var(--home-glass-night);
+  --home-shadow: inset 0 1px 1px #ffffffa6, inset 0 0 0 1px #ffffff14, inset 0 -2px 3px #00000080, 0 22px 52px #00000080, 0 5px 16px #00000052;
+  --home-fade: 720ms;
+  --home-accent: #ffffff;
+  --home-icon: #f2f7ff;
+  --home-icon-tile: #0b2238a8;
+  --home-icon-border: #8ed1ff3d;
+  --home-icon-active: radial-gradient(ellipse at 50% 50%, #0076dba3, #0a233dc4);
+}
+html[data-theme="light"] .proximus-os {
+  --home-ink: #000000;
+  --home-muted: #000000;
+  --home-border: #ffffffc9;
+  --home-glass: var(--home-glass-day);
+  --home-shadow: inset 0 1px 1px #fff, inset 0 0 0 1px #ffffff70, inset 0 -2px 3px #6d778044, 0 22px 48px #20364d4d, 0 5px 16px #20364d29;
+  --home-accent: #000000;
+  --home-icon: #000000;
+  --home-icon-tile: #f4faff9e;
+  --home-icon-border: #ffffffd9;
+  --home-icon-active: radial-gradient(ellipse at 50% 50%, #d7efffff, #9fd3f2c4);
+}
+html[data-theme="light"] .proximus-os,
+html[data-theme="light"] .proximus-os * { text-shadow: none !important; }
+html[data-theme="light"] .desktop-home__greeting { color: #fff; }
+html[data-theme="light"] .desktop-home__greeting h1 { color: #fff; font-weight: 500; }
+html[data-theme="light"] .desktop-home__greeting h1 strong { color: #fff; font-weight: 650; }
+html[data-theme="light"] .desktop-home__greeting > p { color: #fff; font-weight: 500; }
+html[data-theme="light"] .proximus-os .os-topbar__brand,
+html[data-theme="light"] .proximus-os .os-topbar__right { color: #000; text-shadow: 0 1px 8px #ffffffc7; }
+.desktop-home, .desktop-home__scroll-hint, .os-desktop-search, .os-profile-button { display: none; }
+.desktop-settings__themes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin: 16px 0 26px; }
+.desktop-settings__themes > button { display: grid; grid-template-columns: auto 1fr auto; gap: 10px; align-items: center; overflow: hidden; padding: 0 14px 14px; border: 1px solid var(--os-border); border-radius: 12px; background: var(--os-tile); text-align: left; }
+.desktop-settings__themes > button[aria-pressed="true"] { border-color: var(--os-accent); }
+.desktop-settings__themes > button > svg:last-child { opacity: 0; color: var(--os-accent); }
+.desktop-settings__themes > button[aria-pressed="true"] > svg:last-child { opacity: 1; }
+.desktop-settings__preview { grid-column: 1 / -1; display: block; height: 110px; margin: 0 -14px 4px; background-position: center; background-size: cover; }
+.desktop-settings__preview--light { background-image: url('/backgrounds/home-desktop-ps-light.webp'); }
+.desktop-settings__preview--dark { background-image: url('/backgrounds/home-desktop-ps-dark.webp'); }
+.desktop-settings__row { display: flex; align-items: center; gap: 14px; padding: 20px 0; margin-bottom: 18px; border-block: 1px solid var(--os-border); }
+.desktop-settings__row > div { flex: 1; min-width: 0; }
+.desktop-settings__row > svg { flex: none; }
+.desktop-settings__row strong { font-size: 12px; }
+.desktop-settings__row p { color: var(--os-muted); font-size: 11px; margin: 6px 0 0; }
+.desktop-settings__row > button { flex: none; width: 43px; height: 25px; padding: 3px; border: 1px solid var(--os-border); border-radius: 20px; background: var(--os-tile); }
+.desktop-settings__row > button > span { display: block; height: 17px; width: 17px; border-radius: 50%; background: var(--os-muted); transition: translate 180ms, background-color 180ms; }
+.desktop-settings__row > button[aria-checked="true"] { background: #168cff55; }
+.desktop-settings__row > button[aria-checked="true"] > span { translate: 16px 0; background: var(--os-accent); }
+
+@media (min-width: 768px) {
+  .proximus-os { min-height: 0; }
+  .proximus-os .os-home-wallpaper { background: #01060b; }
+  .os-home-wallpaper::before, .os-home-wallpaper::after { content: ''; position: absolute; inset: 0; background-position: center; background-size: cover; background-repeat: no-repeat; transition: opacity var(--home-fade) cubic-bezier(.22,.61,.36,1); }
+  .os-home-wallpaper::before { background-image: linear-gradient(#00071342, #00020738), url('/backgrounds/home-desktop-ps-dark.webp'); }
+  .os-home-wallpaper::after { background-image: linear-gradient(#ffffff08, #dff4ff0d), url('/backgrounds/home-desktop-ps-light.webp'); opacity: 0; }
+  html[data-theme="light"] .os-home-wallpaper::after { opacity: 1; }
+  .os-home-wallpaper > div { display: none; }
+
+  .proximus-os .os-topbar { height: 74px; padding: 0 clamp(24px, 2.5vw, 46px); gap: 25px; border: 0; background: transparent; backdrop-filter: none; color: var(--home-ink); }
+  .proximus-os .os-topbar__brand { font-size: 18px !important; font-weight: 550 !important; gap: 13px; text-shadow: 0 1px 8px #0006; }
+  .proximus-os .os-topbar__brand img { width: 43px; height: 43px; }
+  .proximus-os .os-topbar__brand small { display: none; }
+  .proximus-os .os-topbar__brand b { color: var(--home-accent); font-weight: 600; }
+  .os-desktop-search { position: absolute; left: 50%; translate: -50% 0; display: flex; align-items: center; gap: 12px; width: clamp(280px, 30vw, 510px); height: 44px; padding: 0 14px; border: 1px solid var(--home-border); border-radius: 30px; color: #fff; background: linear-gradient(180deg, #ffffff24, #0a0c122e); -webkit-backdrop-filter: blur(10px) saturate(135%) contrast(105%); backdrop-filter: blur(10px) saturate(135%) contrast(105%); box-shadow: inset 0 1px 1px #ffffffa6, inset 0 -2px 3px #0008, 0 14px 34px #0008; }
+  .os-desktop-search > span { flex: 1; color: #eef6ff; font-size: 11px; font-weight: 500; text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .os-desktop-search kbd { font: 9px var(--font-geist-sans); background: #8ba3d411; padding: 4px 7px; border-radius: 7px; color: #e2eafa; white-space: nowrap; }
+  .os-desktop-search:hover { border-color: #d9edff80; }
+  .proximus-os .os-topbar__right { margin-left: auto; gap: 12px; color: #f4f7ff; }
+  .proximus-os .os-topbar__right > .os-dot, .proximus-os .os-topbar__right > button:first-child, .proximus-os .os-arrange { display: none; }
+  .proximus-os .os-clock { border-color: #e0edff45; padding-inline: 18px 5px; font-size: 11px; gap: 10px; text-shadow: 0 1px 5px #00132d80; }
+  .os-profile-button { position: relative; display: grid; place-items: center; width: 33px; height: 33px; aspect-ratio: 1; box-sizing: border-box; overflow: hidden; padding: 0; background: linear-gradient(145deg, #14b8d4, #e91e72); border: 1px solid #e6f7ff99; border-radius: 50%; color: #e6f4ff !important; flex: 0 0 33px; box-shadow: 0 5px 15px #00152d55; }
+  .os-profile-button__image { display: block; object-fit: cover; object-position: 50% 40%; }
+
+  .proximus-os .os-launcher { left: 15px; top: clamp(100px, 16.4vh, 200px); bottom: auto; width: 92px; padding: 19px 9px; border-radius: 28px; background: var(--home-glass); border: 1px solid var(--home-border); -webkit-backdrop-filter: blur(12px) saturate(135%) contrast(105%); backdrop-filter: blur(12px) saturate(135%) contrast(105%); box-shadow: var(--home-shadow); transition: border-color var(--home-fade), box-shadow var(--home-fade); }
+  .proximus-os .os-launcher nav { gap: clamp(8px, 1.8vh, 20px); }
+  .proximus-os .os-launcher nav button { color: #f5f8ff; padding: 5px 0; gap: 7px; font-size: 11px; font-weight: 600; text-shadow: 0 1px 7px #00152e; border: 0; background: transparent; }
+  .proximus-os .os-launcher .os-app-icon { width: 65px; height: 45px; border: 1px solid transparent; border-radius: 14px; color: var(--app-color); background: #12345447; box-shadow: inset 0 1px 0 #e8f7ff14; }
+  .proximus-os .os-launcher .os-app-icon > svg { width: 25px; height: 25px; }
+  .proximus-os .os-launcher nav button[aria-current] { color: #fff; border: 0; background: transparent; }
+  .proximus-os .os-launcher nav button[aria-current] .os-app-icon { background: #12345470; color: var(--app-color); border-color: #d7eaff38; box-shadow: inset 0 1px 0 #b4ddff12; }
+  .proximus-os .os-launcher nav button:hover .os-app-icon { background: #b8dbff12; color: var(--app-color); }
+  .proximus-os .os-launcher .os-system { display: none; }
+
+  .desktop-home { position: absolute; left: clamp(142px, 12.25vw, 250px); right: 24px; top: clamp(130px, 18.6vh, 235px); bottom: 125px; z-index: 1; display: grid; grid-template-columns: minmax(260px, .77fr) minmax(0, 1fr); gap: clamp(22px, 2.5vw, 50px); align-items: start; color: var(--home-ink); overflow: auto; scrollbar-width: thin; scrollbar-color: #dcecff30 transparent; }
+  .desktop-home__greeting { padding-top: clamp(25px, 6.2vh, 65px); text-shadow: 0 2px 16px #03102b2e; }
+  .desktop-home__greeting h1 { font-size: clamp(31px, 3.1vw, 66px); letter-spacing: -.055em; font-weight: 500; line-height: 1.1; margin: 0; text-shadow: 0 3px 20px #00112680; }
+  .desktop-home__greeting h1:focus { outline: none; }
+  .desktop-home__greeting h1 strong { display: block; font-weight: 650; }
+  .desktop-home__accent { display: block; width: 40px; height: 4px; margin: 18px 0; border-radius: 4px; background: linear-gradient(90deg, #04adff, #1e68f3); }
+  .desktop-home__greeting > p { color: #eef4ff; font-size: clamp(14px, 1.38vw, 25px); line-height: 1.5; font-weight: 500; letter-spacing: -.025em; margin: 0; max-width: 510px; text-shadow: 0 2px 14px #00112699; }
+  .desktop-home__widgets { display: grid; grid-template-columns: minmax(200px, 1.3fr) minmax(160px, 1fr) minmax(145px, .92fr); gap: 12px; align-items: stretch; }
+  .desktop-glass { position: relative; min-width: 0; min-height: 230px; border: 1px solid var(--home-border); border-radius: 24px; background: var(--home-glass); box-shadow: var(--home-shadow); -webkit-backdrop-filter: blur(12px) saturate(135%) contrast(105%); backdrop-filter: blur(12px) saturate(135%) contrast(105%); overflow: hidden; color: var(--home-ink); transition: color var(--home-fade), border-color var(--home-fade), box-shadow var(--home-fade); }
+  .desktop-home h2 { font-weight: 600; font-size: 16px; line-height: 1.4; letter-spacing: -.025em; margin: 0; }
+  .desktop-explore { padding: 20px; display: flex; flex-direction: column; }
+  .desktop-explore > header { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
+  .desktop-explore > header time { color: #e0e8f6; font-size: 10px; white-space: nowrap; }
+  .desktop-explore > div { display: flex; flex-direction: column; gap: 14px; }
+  .desktop-explore button { display: flex; width: 100%; align-items: center; gap: 10px; background: transparent; border: 0; text-align: left; color: #eaf1ff; padding: 0; font-size: 10px; min-height: 19px; }
+  .desktop-explore button > span:nth-child(2) { flex: 1; line-height: 1.5; }
+  .desktop-explore button > small { font-size: 9px; color: #e0e9f8; font-weight: 500; white-space: nowrap; }
+  .desktop-explore__check { display: grid; place-items: center; flex: none; width: 18px; height: 18px; border-radius: 50%; border: 1px solid #c0ccea75; color: white; }
+  .desktop-explore__check[data-visited="true"] { background: #008ffe; border-color: #31afff; }
+  .desktop-explore button:hover > span:nth-child(2) { color: #fff; }
+  .desktop-explore > footer { margin-top: auto; padding-top: 18px; display: flex; justify-content: space-between; gap: 10px; color: #dbe7f7; font-size: 8px; font-weight: 500; }
+
+  .desktop-focus { display: flex; flex-direction: column; position: relative; }
+  .desktop-focus__scene { position: relative; flex: 1; min-height: 125px; background: #132235; overflow: hidden; }
+  .desktop-focus__scene::before, .desktop-focus__scene::after { content: ''; position: absolute; inset: 0; background-image: url('/backgrounds/home-desktop-ps-dark.webp'); background-size: 240%; background-position: 78% 32%; transition: opacity var(--home-fade); }
+  .desktop-focus__scene::after { background-image: url('/backgrounds/home-desktop-ps-light.webp'); opacity: 0; }
+  html[data-theme="light"] .desktop-focus__scene::after { opacity: 1; }
+  .desktop-focus__scene > span { position: absolute; z-index: 1; inset: 0; background: linear-gradient(transparent 65%, #07142366); }
+  .desktop-focus__scene > div { position: absolute; top: 22px; right: 23px; display: flex; align-items: end; gap: 3px; z-index: 1; }
+  .desktop-focus__scene i { width: 3px; background: #f1f6ff; border-radius: 1px; height: 8px; }
+  .desktop-focus__scene i:nth-child(2) { height: 13px; }
+  .desktop-focus__scene i:nth-child(3) { height: 19px; }
+  .desktop-focus__scene i:nth-child(4) { height: 14px; }
+  .desktop-focus__controls { display: flex; align-items: center; gap: 11px; padding: 16px; min-height: 86px; background: #ffffff0b; border-top: 1px solid #ffffff24; }
+  .desktop-focus__play { display: grid; place-items: center; width: 43px; height: 43px; flex: none; padding: 0; border: 0; border-radius: 50%; background: #f6f8ff; color: #12203a !important; }
+  .desktop-focus__play:hover { background: #daf0ff; }
+  .desktop-focus .desktop-focus__controls h2 { font-size: 12px; letter-spacing: 0; }
+  .desktop-focus__controls p { color: #dce8f8; font-size: 9px; font-weight: 500; line-height: 1.6; margin: 4px 0 0; white-space: nowrap; }
+  .desktop-focus__controls time { font-variant-numeric: tabular-nums; }
+  .desktop-focus__reset { position: absolute; z-index: 2; top: 17px; left: 16px; display: grid; place-items: center; height: 25px; width: 25px; border: 1px solid #d6eaff44; border-radius: 50%; background: #071b3b77; color: #d9e9ff !important; padding: 3px; }
+  .desktop-quote { margin: 0; padding: 22px 23px; display: flex; flex-direction: column; }
+  .desktop-quote > svg { color: #c9c8ff; margin-bottom: 10px; }
+  .desktop-quote blockquote { font-size: clamp(17px, 1.35vw, 27px); line-height: 1.5; letter-spacing: -.035em; font-weight: 500; margin: 0; }
+  .desktop-quote blockquote > span { color: #edf4ff; }
+  .desktop-quote figcaption { display: flex; align-items: center; gap: 10px; font-size: 9px; font-weight: 500; color: #d5e6f8; margin-top: auto; padding-top: 18px; }
+  .desktop-quote figcaption > span { height: 1px; width: 19px; background: #b6cdef; }
+
+  .proximus-os .os-workspace { top: 88px; left: 130px; right: 26px; bottom: 125px; z-index: 20; pointer-events: none; }
+  .proximus-os .os-workspace > .os-window { pointer-events: auto; }
+  .proximus-os .os-workspace > .os-window--welcome, .proximus-os .os-empty-desktop { display: none; }
+  .proximus-os .os-dock { bottom: 38px; left: 50%; translate: none; transform: translateX(-50%); gap: 17px; padding: 13px 20px 7px; border-radius: 30px; background: var(--home-glass); border-color: var(--home-border); box-shadow: var(--home-shadow); -webkit-backdrop-filter: blur(12px) saturate(135%) contrast(105%); backdrop-filter: blur(12px) saturate(135%) contrast(105%); }
+  .proximus-os .os-dock > button { padding: 0 2px 10px; }
+  .proximus-os .os-dock .os-app-icon { height: 48px; width: 50px; border-radius: 14px; background: var(--home-icon-tile); color: var(--app-color); border: 1px solid var(--home-icon-border); box-shadow: inset 0 1px 0 #d4eaff08; }
+  .proximus-os .os-dock > button[aria-current] .os-app-icon { color: var(--app-color); border-color: #2d84ff30; background: var(--home-icon-active); box-shadow: 0 5px 18px #00132d33; }
+  .proximus-os .os-dock > button > i { height: 3px; width: 3px; background: #d3dbee50; }
+  .proximus-os .os-dock > button[aria-current] > i { width: 17px; border-radius: 2px; background: #04b9ff; box-shadow: 0 0 9px #02aaff50; }
+  .proximus-os .os-dock > button[data-running="true"] > i { background: #7bceff; }
+  .proximus-os .os-dock > button[data-minimized="true"] > i { width: 9px; background: #adb7cf; }
+  .proximus-os .os-dock > button[aria-current][data-running] > i { background: #04b9ff; }
+  .proximus-os .os-dock__divider, .proximus-os .os-dock__source, .proximus-os .os-desktop-footer { display: none; }
+  .desktop-glass, .proximus-os .os-launcher, .proximus-os .os-dock { isolation: isolate; background: transparent; }
+  .desktop-glass::before, .desktop-glass::after,
+  .proximus-os .os-launcher::before, .proximus-os .os-launcher::after,
+  .proximus-os .os-dock::before, .proximus-os .os-dock::after {
+    content: ''; position: absolute; inset: 0; z-index: -1; border-radius: inherit; pointer-events: none;
+    transition: opacity var(--home-fade) cubic-bezier(.22,.61,.36,1);
+  }
+  .desktop-glass::before, .proximus-os .os-launcher::before, .proximus-os .os-dock::before { background: var(--home-glass-night); }
+  .desktop-glass::after, .proximus-os .os-launcher::after, .proximus-os .os-dock::after { background: var(--home-glass-day); opacity: 0; }
+  html[data-theme="light"] .desktop-glass::before, html[data-theme="light"] .proximus-os .os-launcher::before, html[data-theme="light"] .proximus-os .os-dock::before { opacity: 0; }
+  html[data-theme="light"] .desktop-glass::after, html[data-theme="light"] .proximus-os .os-launcher::after, html[data-theme="light"] .proximus-os .os-dock::after { opacity: 1; }
+  .proximus-os[data-quiet="true"] .desktop-glass, .proximus-os[data-quiet="true"] .os-launcher, .proximus-os[data-quiet="true"] .os-dock { -webkit-backdrop-filter: none; backdrop-filter: none; background: #132236eb; }
+}
+
+@media (min-width: 768px) {
+  html[data-theme="light"] .os-desktop-search { color: #000; background: linear-gradient(180deg, #ffffff61, #d8e0e82e); border-color: #ffffffd6; box-shadow: inset 0 1px 1px #fff, inset 0 -2px 3px #6d778044, 0 14px 34px #20364d4d; }
+  html[data-theme="light"] .os-desktop-search > span { color: #000; }
+  html[data-theme="light"] .os-desktop-search kbd { color: #000; background: #81878d24; }
+  html[data-theme="light"] .os-profile-button { color: #000 !important; border-color: #fff; box-shadow: 0 9px 22px #20364d4d; }
+  html[data-theme="light"] .proximus-os .os-launcher nav button { color: #000; text-shadow: 0 1px 7px #ffffffd9; }
+  html[data-theme="light"] .proximus-os .os-launcher .os-app-icon { color: var(--app-color); background: #f5fbff8f; border-color: #ffffffb8; box-shadow: inset 0 1px 0 #fff; }
+  html[data-theme="light"] .proximus-os .os-launcher nav button[aria-current] { color: #000; }
+  html[data-theme="light"] .proximus-os .os-launcher nav button[aria-current] .os-app-icon { color: var(--app-color); background: #f5fbffb8; box-shadow: inset 0 1px 0 #fff, 0 8px 18px #2876a72b; }
+  html[data-theme="light"] .proximus-os .os-launcher nav button:hover .os-app-icon { color: var(--app-color); background: #ffffffb5; }
+  html[data-theme="light"] .desktop-explore > header time,
+  html[data-theme="light"] .desktop-explore button,
+  html[data-theme="light"] .desktop-explore button > small,
+  html[data-theme="light"] .desktop-explore > footer { color: #000; }
+  html[data-theme="light"] .desktop-explore__check { color: #000; border-color: #4b8dbb70; }
+  html[data-theme="light"] .desktop-explore__check[data-visited="true"] { color: #fff; }
+  html[data-theme="light"] .desktop-explore button:hover > span:nth-child(2) { color: #000; }
+  html[data-theme="light"] .desktop-focus__controls { background: #eaf5fdd9; }
+  html[data-theme="light"] .desktop-focus__controls p { color: #000; }
+  html[data-theme="light"] .desktop-quote > svg,
+  html[data-theme="light"] .desktop-quote blockquote > span,
+  html[data-theme="light"] .desktop-quote figcaption { color: #000; }
+  html[data-theme="light"] .desktop-featured__label,
+  html[data-theme="light"] .desktop-featured > button { color: #000; }
+  html[data-theme="light"] .desktop-home__actions > button { color: #000; background: linear-gradient(180deg, #ffffff61, #cdd5dd2e); border-color: #ffffffd1; box-shadow: inset 0 1px 1px #fff, inset 0 -2px 3px #6d778044, 0 9px 22px #20364d38; }
+  html[data-theme="light"] .desktop-home__actions > button:first-child { color: #fff; background: #006bd7; border-color: #8fd4ff; }
+  html[data-theme="light"] .desktop-home__scroll-hint { color: #000; background: linear-gradient(180deg, #ffffff61, #cdd5dd2e); border-color: #ffffffd1; box-shadow: inset 0 1px 1px #fff, inset 0 -2px 3px #6d778044, 0 9px 22px #20364d38; }
+  html[data-theme="light"] .proximus-os[data-quiet="true"] .desktop-glass,
+  html[data-theme="light"] .proximus-os[data-quiet="true"] .os-launcher,
+  html[data-theme="light"] .proximus-os[data-quiet="true"] .os-dock { background: #e4f1f8ed; }
+}
+
+@media (min-width: 768px) and (max-width: 1399px) {
+  .desktop-home { grid-template-columns: 1fr; left: 155px; top: 125px; gap: 34px; }
+  .desktop-home__greeting { padding-top: 0; }
+  .desktop-home__greeting h1 { font-size: clamp(34px, 3.8vw, 52px); }
+  .desktop-home__widgets { max-width: 1000px; grid-template-columns: minmax(230px, 1.3fr) minmax(180px, 1fr) minmax(160px, .92fr); }
+  .desktop-glass { min-height: 220px; }
+  .proximus-os .os-topbar__right { gap: 5px; }
+  .proximus-os .os-clock { font-size: 10px; padding-left: 12px; }
+  .os-desktop-search { width: 31vw; min-width: 250px; }
+  .os-desktop-search kbd { display: none; }
+}
+@media (min-width: 768px) and (max-width: 1050px) {
+  .proximus-os .os-topbar { padding: 0 22px; gap: 12px; }
+  .proximus-os .os-topbar__brand { font-size: 14px !important; gap: 6px; }
+  .proximus-os .os-topbar__brand img { width: 33px; }
+  .proximus-os .os-clock { display: flex; font-size: 9px; gap: 6px; }
+  .proximus-os .os-clock > span { display: none; }
+  .proximus-os .os-topbar__right { gap: 3px; }
+  .proximus-os .os-profile-button { height: 28px; width: 28px; flex-basis: 28px; }
+  .os-desktop-search { min-width: 220px; width: 31vw; height: 39px; }
+  .os-desktop-search > span { font-size: 9px; }
+  .desktop-home { left: 135px; right: 22px; top: 110px; gap: 28px; }
+  .desktop-home__widgets { grid-template-columns: minmax(220px, 1.2fr) minmax(170px, 1fr); gap: 12px; }
+  .desktop-quote { grid-column: 1 / -1; min-height: 150px; }
+  .desktop-quote > svg { width: 23px; height: 23px; margin: 0 0 3px; }
+  .desktop-quote blockquote { font-size: 21px; }
+  .desktop-quote blockquote > br { display: none; }
+  .desktop-quote figcaption { margin-top: 10px; padding-top: 0; }
+  .proximus-os .os-launcher { left: 12px; width: 85px; padding-inline: 6px; }
+  .proximus-os .os-launcher nav { gap: 10px; }
+  .proximus-os .os-workspace { left: 114px; right: 20px; }
+}
+@media (min-width: 768px) and (max-height: 720px) {
+  .proximus-os .os-launcher { top: 88px; padding-block: 12px; border-radius: 20px; }
+  .proximus-os .os-launcher nav { gap: 4px; }
+  .proximus-os .os-launcher nav button { font-size: 9px; gap: 2px; padding-block: 3px; }
+  .proximus-os .os-launcher .os-app-icon { height: 35px; }
+  .desktop-home { top: 110px; bottom: 105px; }
+  .desktop-home__greeting { padding-top: 14px; }
+  .desktop-glass { min-height: 205px; }
+  .proximus-os .os-dock { bottom: 20px; padding-block: 8px 5px; }
+  .proximus-os .os-dock .os-app-icon { height: 40px; width: 43px; }
+  .proximus-os .os-workspace { bottom: 105px; }
+}
+/* Readable controls and a clear route from the desktop into the work. */
+@media (min-width: 768px) {
+  .desktop-home { padding-right: 8px; scrollbar-width: auto; scrollbar-color: #b8dfff99 #0b203655; }
+  .desktop-home:focus { outline: none; }
+  .desktop-home:focus-visible { outline: 2px solid #83dcff; outline-offset: 5px; }
+  .desktop-home__actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 22px; }
+  .desktop-home__actions > button { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 46px; padding: 10px 18px; border: 1px solid #ffffff70; border-radius: 15px; background: linear-gradient(180deg, #ffffff22, #080a102b); color: #fff; font-size: 14px; font-weight: 650; -webkit-backdrop-filter: blur(10px) saturate(135%); backdrop-filter: blur(10px) saturate(135%); box-shadow: inset 0 1px 1px #ffffff9c, inset 0 -2px 3px #0007, 0 10px 24px #0006; }
+  .desktop-home__actions > button:first-child { background: #006bdd; border-color: #83cdff; }
+  .desktop-home__widgets { grid-template-columns: minmax(245px, 1.25fr) minmax(190px, 1fr); gap: 16px; }
+  .desktop-glass { min-height: 260px; }
+  .desktop-explore > header time { font-size: 12px; }
+  .desktop-explore > div { gap: 6px; }
+  .desktop-explore button { min-height: 32px; font-size: 13px; gap: 9px; }
+  .desktop-explore button > small { font-size: 11px; }
+  .desktop-explore > footer { font-size: 11px; line-height: 1.5; padding-top: 14px; }
+  .desktop-focus__controls p { font-size: 12px; white-space: normal; }
+  .desktop-featured { display: flex; flex-direction: column; gap: 12px; grid-column: 1 / -1; padding: 23px; min-height: 185px; }
+  .desktop-featured__label { display: flex; align-items: center; gap: 9px; font-size: 12px; font-weight: 650; color: var(--home-accent); }
+  .desktop-featured h2 { font-size: 22px; line-height: 1.2; letter-spacing: -.025em; }
+  .desktop-featured > p { margin: 0; color: var(--home-muted); font-size: 14px; line-height: 1.6; max-width: 60ch; }
+  .desktop-featured > button { display: inline-flex; align-items: center; gap: 9px; align-self: flex-start; margin-top: auto; min-height: 38px; border: 0; padding: 0; background: transparent; color: var(--home-accent); font-size: 14px; font-weight: 650; }
+  .desktop-home__scroll-hint { position: absolute; z-index: 10; left: 50%; bottom: 108px; transform: translateX(-50%); display: flex; align-items: center; gap: 8px; min-height: 34px; border: 1px solid #ffffff70; border-radius: 20px; padding: 6px 14px; background: linear-gradient(180deg, #ffffff22, #080a102b); color: #fff; font-size: 12px; -webkit-backdrop-filter: blur(10px) saturate(135%); backdrop-filter: blur(10px) saturate(135%); box-shadow: inset 0 1px 1px #ffffff9c, inset 0 -2px 3px #0007, 0 10px 24px #0006; }
+  .proximus-os[data-mobile-app="true"] .desktop-home__scroll-hint { display: none; }
+  .proximus-os .os-dock { max-width: calc(100vw - 36px); gap: 12px; }
+}
+@media (min-width: 1100px) and (max-width: 1399px) {
+  .desktop-home { top: 105px; bottom: 110px; gap: 24px; }
+  .desktop-home__greeting h1 { font-size: clamp(36px, 3.2vw, 46px); }
+  .desktop-home__greeting > p { font-size: 18px; }
+  .desktop-home__widgets { grid-template-columns: minmax(290px, 1.25fr) minmax(210px, .9fr) minmax(240px, 1fr); max-width: none; }
+  .desktop-featured { grid-column: auto; }
+}
+@media (min-width: 768px) and (max-width: 1099px) {
+  .desktop-home { grid-template-columns: 1fr; left: 135px; top: 106px; gap: 24px; }
+  .desktop-home__greeting { padding-top: 0; }
+  .desktop-home__greeting h1 { font-size: 36px; }
+  .desktop-home__greeting > p { font-size: 17px; }
+  .desktop-home__widgets { grid-template-columns: minmax(245px, 1.2fr) minmax(190px, 1fr); }
+  .proximus-os .os-dock { gap: 7px; padding-inline: 12px; }
+  .proximus-os .os-dock .os-app-icon { width: 42px; height: 42px; }
+}
+@media (min-width: 768px) and (max-height: 650px) {
+  .desktop-home { top: 90px; bottom: 106px; gap: 20px; }
+  .desktop-home__greeting { padding-top: 0; }
+  .desktop-home__greeting h1 { font-size: 34px; }
+  .desktop-home__accent { margin-block: 12px; }
+  .desktop-home__actions { margin-top: 15px; }
+}
+@media (prefers-reduced-motion: reduce) { .desktop-home, .desktop-home *, .desktop-home *::before, .desktop-home *::after, .os-home-wallpaper::before, .os-home-wallpaper::after, .desktop-settings * { animation: none !important; transition: none !important; } }

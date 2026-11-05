@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import Script from "next/script";
 import { AppIntro } from "@/components/AppIntro";
 import "./globals.css";
+import "./proximus-os.css";
 
 const themeInitializer = `
   (function () {
@@ -11,9 +12,24 @@ const themeInitializer = `
       var preferredTheme = window.matchMedia("(prefers-color-scheme: light)").matches
         ? "light"
         : "dark";
-      document.documentElement.dataset.theme = savedTheme || preferredTheme;
+      document.documentElement.dataset.theme = savedTheme === "light" || savedTheme === "dark" ? savedTheme : preferredTheme;
     } catch (error) {
       document.documentElement.dataset.theme = "dark";
+    }
+    try {
+      document.documentElement.dataset.psBoot =
+        new URLSearchParams(window.location.search).get("intro") !== "replay" &&
+        window.sessionStorage.getItem("ps-os-boot") === "seen" ? "skip" : "play";
+    } catch (error) {
+      document.documentElement.dataset.psBoot = "play";
+    }
+    try {
+      document.documentElement.dataset.psWorkspace =
+        window.sessionStorage.getItem("ps-workspace-unlocked") === "true"
+          ? "unlocked"
+          : "locked";
+    } catch (error) {
+      document.documentElement.dataset.psWorkspace = "locked";
     }
   })();
 `;
@@ -29,15 +45,7 @@ const homeScrollInitializer = `
         window.history.scrollRestoration = "manual";
       }
 
-      if (window.location.hash) {
-        window.history.replaceState(
-          null,
-          "",
-          window.location.pathname + window.location.search
-        );
-      }
-
-      window.scrollTo(0, 0);
+      window.scrollTo({ top: 0, left: 0, behavior: "instant" });
     }
 
     resetHomeScroll();
@@ -63,9 +71,25 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://proximus-shev-portfolio.vercel.app"),
   title: "John Amoako Appiah | Proximus Shev",
   description:
-    "Personal portfolio of John Amoako Appiah, a frontend, full-stack, and software developer.",
+    "Explore the interactive portfolio of John Amoako Appiah. Discover frontend, full-stack, Python, and AI projects, skills, and contact information.",
+  openGraph: {
+    title: "John Amoako Appiah | Interactive Portfolio",
+    description:
+      "Ambitious ideas shaped into memorable digital products. Explore the Proximus Shev developer workspace.",
+    type: "website",
+    siteName: "Proximus Shev",
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "Proximus Shev, the portfolio of John Amoako Appiah" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "John Amoako Appiah | Interactive Portfolio",
+    description:
+      "Explore polished digital products, projects, and skills inside the Proximus Shev developer workspace.",
+    images: ["/opengraph-image"],
+  },
 };
 
 export default function RootLayout({

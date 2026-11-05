@@ -71,7 +71,7 @@ export function SciFiPageShell({ children }: SciFiPageShellProps) {
         {floatingCode.map(({ row, index, layer }) => (
           <span
             key={`${row}-${index}-${layer}`}
-            className="absolute whitespace-nowrap font-mono text-[9px] text-blue-100/70"
+            className="absolute whitespace-nowrap font-mono text-[9px] font-medium text-blue-50/90"
             style={{
               left: `${(index * 31 + layer * 19) % 96}%`,
               top: `${(index * 17 + layer * 23) % 94}%`,

@@ -1,0 +1,123 @@
+/* Shared application chrome. Home and lock-screen styling remain independent. */
+.proximus-os .os-window {
+  --os-text: #fbfdff;
+  --os-muted: #ffffff;
+  --os-faint: #ffffff;
+  --os-panel: linear-gradient(#030912d9, #030912d9), url('/backgrounds/home-desktop-ps-dark.webp');
+  --os-bar: #0b111b;
+  --os-border: #ffffff4d;
+  --os-tile: #1b416b82;
+  --os-accent: #ffffff;
+  --os-blue: #ffffff;
+  --window-card: linear-gradient(120deg, #0d243cdb, #071421e6);
+  --window-card-sheen: #2195ff19;
+  --window-fade: 540ms;
+  color: var(--os-text);
+  border-color: var(--os-border);
+  border-radius: 22px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  box-shadow: 0 24px 64px #00071180, 0 6px 20px #000b1845;
+  /* Windows use a softly veiled wallpaper instead of glass. Keeping the
+     image on the window itself also avoids expensive live backdrop paints. */
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  contain: layout paint;
+  transition: background-color var(--window-fade), border-color var(--window-fade), color var(--window-fade);
+}
+html[data-theme="light"] .proximus-os .os-window {
+  --os-text: #000000;
+  --os-muted: #000000;
+  --os-faint: #000000;
+  --os-panel: linear-gradient(#f4f8fcdf, #f4f8fcdf), url('/backgrounds/home-desktop-ps-light.webp');
+  --os-bar: #f3f5f7;
+  --os-border: #ffffffd1;
+  --os-tile: #c8e2fbb8;
+  --os-accent: #000000;
+  --os-blue: #000000;
+  --window-card: linear-gradient(120deg, #f8fcfff2, #e4f1ffed);
+  --window-card-sheen: #208ef510;
+  box-shadow: 0 22px 58px #183c6a3b, 0 5px 18px #183c6a20;
+}
+.proximus-os .os-window[data-active="true"] { border-color: #319fdf9c; }
+.proximus-os .os-window[data-dragging="true"] { will-change: transform; transition: none; }
+.proximus-os .os-window[data-dragging="true"] .os-window__body { pointer-events: none; }
+.proximus-os .os-window__bar {
+  height: 62px;
+  min-height: 62px;
+  gap: 18px;
+  padding: 0 22px;
+  transition: background-color var(--window-fade), border-color var(--window-fade);
+}
+.proximus-os .os-window__controls { gap: 7px; padding-right: 16px; margin-right: 1px; align-items: center; align-self: stretch; border-right: 1px solid var(--os-border); }
+.proximus-os .os-window__controls button { width: 26px; height: 26px; padding: 0; flex: none; }
+.proximus-os .os-window__controls button::before { inset: 0; }
+.proximus-os .os-window__controls svg { width: 12px; height: 12px; opacity: 1; }
+.proximus-os .os-window__title { gap: 11px; min-width: 0; font-size: 13px; font-weight: 650; }
+.proximus-os .os-window__title > span:last-child { overflow: hidden; text-overflow: ellipsis; }
+.proximus-os .os-window__app-icon { display: grid; place-items: center; width: 30px; height: 30px; flex: none; color: var(--app-color); border: 1px solid var(--os-border); border-radius: 8px; background: var(--os-tile); box-shadow: inset 0 1px 0 #c7efff24; }
+.proximus-os .os-window__body { container-type: inline-size; background: transparent; }
+.proximus-os .os-window--projects .os-window__body { overflow-x: hidden; contain: layout paint; }
+.proximus-os .os-description { font-size: 15px; line-height: 1.8; }
+.proximus-os .os-small, .proximus-os .os-checklist { font-size: 13px; }
+.proximus-os .os-project-directory .os-project-tile p { font-size: 14px; }
+.proximus-os .os-project-directory .os-project-tile__identity { font-size: 12px; }
+.proximus-os .os-project-directory .os-filter-row > button { font-size: 13px; min-height: 42px; }
+.proximus-os .os-project-directory .os-filter-row > a { font-size: 13px; }
+.proximus-os[data-quiet="true"] .os-window { -webkit-backdrop-filter: none; backdrop-filter: none; background: var(--os-panel); }
+
+/* Only real project content is used: no mock previews, storage, or upgrade UI. */
+.proximus-os .os-project-directory { padding: 0; min-height: 100%; }
+.os-project-directory__hero { position: relative; overflow: hidden; padding: clamp(26px, 5cqw, 48px) clamp(22px, 4cqw, 42px) 30px; border-bottom: 1px solid var(--os-border); background: linear-gradient(90deg, #040e1bf5 0%, #040e1bd9 45%, #040e1b55); contain: paint; }
+html[data-theme="light"] .os-project-directory__hero { background: linear-gradient(90deg, #f1f8fff5 0%, #f1f8ffdb 45%, #f1f8ff66); }
+.proximus-os .os-project-directory__hero > .os-eyebrow { font-size: 12px; letter-spacing: .2em; margin: 0 0 17px; }
+.proximus-os .os-project-directory__hero h2 { font-size: clamp(34px, 6.4cqw, 66px); line-height: 1.02; letter-spacing: -.055em; margin: 0 0 20px; max-width: 720px; }
+.os-project-directory__hero h2 > span { display: block; color: var(--os-accent); background: linear-gradient(100deg, #8ddaff, #0aa5ff 65%); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+html[data-theme="light"] .os-project-directory__hero h2 > span { background-image: linear-gradient(100deg, #165d96, #0078db 65%); }
+.proximus-os .os-project-directory__hero .os-description { max-width: 550px; margin: 0; font-size: 15px; line-height: 1.8; }
+.os-project-directory__content { padding: 22px clamp(22px, 4cqw, 42px) 34px; }
+.os-project-directory .os-filter-row { gap: 9px; margin: 0 0 25px; }
+.proximus-os .os-project-directory .os-filter-row > button { display: inline-flex; justify-content: center; align-items: center; min-height: 37px; padding: 8px 17px; font-size: 11px; background: transparent; color: var(--os-muted); border-color: var(--os-border); transition: background-color 180ms, border-color 180ms, color 180ms; }
+.proximus-os .os-project-directory .os-filter-row > button[aria-pressed="true"] { color: #fff; border-color: #38beff; background: linear-gradient(135deg, #0a9bff, #065fdb); box-shadow: inset 0 1px 2px #bcecff8c, 0 0 18px #008dff26; }
+.os-project-directory .os-filter-row > a { font-size: 10px; }
+.os-project-directory .os-project-grid { grid-template-columns: minmax(0, 1fr); gap: 18px; }
+.proximus-os .os-project-directory .os-project-tile { position: relative; isolation: isolate; display: grid; min-width: 0; min-height: 270px; padding: 0; border: 1px solid var(--os-border); border-radius: 17px; background: var(--window-card); text-align: left; box-shadow: none; transition: none; content-visibility: auto; contain: layout paint style; contain-intrinsic-size: auto 270px; }
+.proximus-os .os-project-directory .os-project-tile:hover { border-color: var(--os-blue); box-shadow: none; }
+.os-project-directory .os-project-tile::after { display: none; }
+.os-project-directory .os-project-tile > .os-project-art { position: absolute; right: -35px; bottom: -18px; width: 47%; height: 100%; min-height: 0; opacity: .34; border: 0; background: transparent; pointer-events: none; z-index: -1; }
+.os-project-directory .os-project-art > span, .os-project-directory .os-project-art > small { display: none; }
+.os-project-directory .os-project-art > svg { width: 110px; height: 110px; }
+.os-project-directory .os-project-art > img { width: 210px; height: 210px; object-fit: contain; }
+.os-project-directory .os-project-art > i { width: 230px; height: 230px; right: -55px; }
+.proximus-os .os-project-tile > .os-project-tile__copy { display: flex; flex-direction: column; align-items: flex-start; padding: 24px; min-width: 0; }
+.os-project-tile__identity { display: flex; align-items: center; gap: 12px; color: var(--os-accent); font-size: 10px; }
+.os-project-directory .os-project-tile h3 { margin: 20px 0 13px; font-size: clamp(21px, 3cqw, 27px); line-height: 1.16; letter-spacing: -.045em; overflow-wrap: anywhere; }
+.os-project-directory .os-project-tile .os-project-status { display: inline-flex; align-items: center; gap: 7px; padding: 6px 10px; margin: 0 0 5px; border: 1px solid #278cd640; border-radius: 25px; color: var(--os-accent); background: var(--os-tile); font-size: 12px; }
+.os-project-directory .os-project-status .os-dot { width: 5px; height: 5px; box-shadow: none; }
+.os-project-directory .os-project-tile p { max-width: 47ch; font-size: 12px; line-height: 1.75; margin: 12px 0 24px; }
+.os-project-directory .os-project-tile__link { margin-top: auto; padding-top: 3px; font-size: 12px; gap: 11px; }
+.proximus-os .os-project-detail { background: radial-gradient(ellipse at 100% 0, var(--window-card-sheen), transparent 55%); min-height: 100%; }
+.os-project-detail .os-project-detail__heading .os-project-art { border-radius: 17px; background: var(--window-card); }
+.os-project-detail .os-detail-columns section { padding: 20px; border: 1px solid var(--os-border); border-radius: 15px; background: var(--os-tile); }
+.os-project-detail .os-detail-columns section > p:first-child { margin-top: 0; }
+.os-project-detail .os-detail-columns section > p:last-child { margin-bottom: 0; }
+
+@container (min-width: 640px) { .os-project-directory .os-project-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@container (max-width: 450px) {
+  .os-project-directory__hero { padding: 28px 20px; }
+  .os-project-directory__content { padding: 19px 18px 26px; }
+  .proximus-os .os-project-directory__hero h2 { font-size: 36px; }
+  .proximus-os .os-project-directory__hero > .os-eyebrow { letter-spacing: .16em; font-size: 11px; }
+  .os-project-directory .os-filter-row { gap: 7px; margin-bottom: 19px; }
+  .proximus-os .os-project-directory .os-filter-row > button { min-height: 40px; padding-inline: 13px; }
+  .os-project-directory .os-filter-row > a { margin-left: 0; min-height: 36px; }
+  .proximus-os .os-project-tile > .os-project-tile__copy { padding: 21px; }
+}
+@media (max-width: 767px) {
+  .proximus-os .os-window { border-radius: 20px; }
+  .proximus-os .os-window__bar { height: 58px; min-height: 58px; padding-inline: 12px; gap: 11px; }
+  .proximus-os .os-window__controls { display: none; }
+  .proximus-os .os-window__title { gap: 8px; font-size: 12px; }
+  .proximus-os .os-window__app-icon { width: 27px; height: 27px; }
+}

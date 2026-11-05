@@ -6,10 +6,10 @@ import {
   ArrowRight,
   ArrowUpRight,
   Check,
+  HeartHandshake,
   Layers3,
   Mail,
   MonitorSmartphone,
-  Sparkles,
 } from "lucide-react";
 import type { PointerEvent } from "react";
 import { useRef } from "react";
@@ -113,9 +113,9 @@ const services = [
     accent: "capability-blue",
   },
   {
-    icon: Sparkles,
-    title: "Product Experience",
-    copy: "Thoughtful interactions and visual systems that make useful software feel memorable.",
+    icon: HeartHandshake,
+    title: "People First",
+    copy: "I think about the person using each screen and make decisions that respect their time.",
     accent: "capability-violet",
   },
 ];
