@@ -71,6 +71,12 @@
   .phone-lock__clock > p { margin: 9px 0 0; font-size: clamp(7px, 2.1vw, 10px); letter-spacing: .4em; white-space: nowrap; }
   .phone-lock__clock > p > strong { color: #02b4ff; font-weight: 700; }
   html[data-theme="light"] .phone-lock__clock > p > strong { color: #000; }
+  .phone-lock__word { display: inline-grid; text-align: left; vertical-align: baseline; }
+  .phone-lock__word-reserve, .phone-lock__word-text { grid-area: 1 / 1; }
+  .phone-lock__word-reserve { visibility: hidden; }
+  .phone-lock__word-reserve::after, .phone-lock__word-text::after { content: ''; display: inline-block; width: 1px; height: .9em; margin-left: .12em; vertical-align: -.06em; }
+  .phone-lock__word-text::after { background: currentColor; box-shadow: 0 0 6px currentColor; animation: phone-lock-word-cursor .8s steps(2, start) infinite; }
+  @keyframes phone-lock-word-cursor { 50% { opacity: 0; } }
   .phone-lock__entry { position: absolute; left: 50%; bottom: calc(13svh + env(safe-area-inset-bottom)); transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 8px; width: max-content; max-width: calc(100% - 40px); pointer-events: auto; }
   .phone-lock__unlock { display: grid; place-items: center; width: 65px; height: 65px; padding: 0; border-radius: 50%; border-color: #c8eaff70; color: #fff; cursor: pointer; transition: transform 260ms ease, border-color 260ms ease, box-shadow 260ms ease; }
   .phone-lock__unlock > svg { grid-area: 1 / 1; transition: opacity 120ms linear, transform 220ms ease; }
@@ -91,10 +97,12 @@
   .phone-home { display: block; width: 100%; height: 100%; overflow-x: hidden; overflow-y: auto; overscroll-behavior: none; scroll-padding-block: 14px 24px; padding: 14px max(20px, env(safe-area-inset-right)) 24px max(20px, env(safe-area-inset-left)); color: var(--phone-text); transition: color var(--phone-theme-duration); }
   .phone-home__status { display: flex; align-items: center; justify-content: space-between; min-height: 40px; margin: 0 0 14px 3px; }
   .phone-home__status > img { width: 40px; height: 40px; object-fit: contain; filter: drop-shadow(0 1px 7px #13375777); }
-  .phone-home__theme-toggle { display: grid; place-items: center; width: 40px; height: 40px; padding: 0; border: 1px solid #ffffff80; border-radius: 50%; background: #07182d38; color: #fff; box-shadow: 0 6px 18px #00152d33; }
+  .phone-home__controls { display: flex; align-items: center; gap: 8px; }
+  .phone-home__theme-toggle, .phone-home__lock { display: grid; place-items: center; width: 40px; height: 40px; padding: 0; border: 1px solid #ffffff80; border-radius: 50%; background: #07182d38; color: #fff; box-shadow: 0 6px 18px #00152d33; }
   .phone-home__theme-toggle > svg { grid-area: 1 / 1; }
-  .phone-home__theme-toggle:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+  .phone-home__theme-toggle:focus-visible, .phone-home__lock:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
   .phone-home__intro { display: flex; justify-content: space-between; gap: 10px; align-items: start; text-shadow: 0 2px 16px #03102b2e; }
+  .phone-home__intro > div { min-width: 0; flex: 1; }
   .phone-home__intro h1 { margin: 0; font-size: clamp(22px, 5.5vw, 31px); font-weight: 550; line-height: 1.1; letter-spacing: -.04em; text-shadow: 0 2px 14px #00152d80; }
   .phone-home__intro h1 strong { display: block; font-size: 1.3em; font-weight: 700; margin-top: 2px; }
   .phone-home__intro h1:focus { outline: none; }
@@ -195,3 +203,8 @@
 @media (max-width: 359px) { .phone-home { padding-inline: 15px; } .phone-home__apps { gap: 8px; } .phone-app { min-height: 68px; border-radius: 17px; } .phone-app > span { font-size: 9px; } .phone-home__intro h1 { font-size: 22px; } .phone-avatar { width: 40px; height: 40px; } .phone-agenda { padding: 11px 12px; } .phone-agenda button > span { font-size: 10px; } .phone-agenda button > small { font-size: 8px; } .phone-appearance { padding: 11px; } .phone-appearance > div { gap: 5px; } .phone-appearance > div > span > svg { height: 22px; width: 22px; } .phone-home .desktop-focus { gap: 7px; padding: 8px; } .phone-dock { left: 10px; right: 10px; gap: 9px; padding-inline: 10px; } }
 @media (max-width: 767px) and (max-height: 600px) { .phone-lock__clock { top: 73px; } .phone-lock__clock > div > time { font-size: 42px; } .phone-lock__entry { bottom: calc(18svh + env(safe-area-inset-bottom)); gap: 4px; } .phone-lock__unlock { height: 53px; width: 53px; } .phone-lock__shortcuts { bottom: calc(36px + env(safe-area-inset-bottom)); } .phone-lock__entry > p { font-size: 12px; } .phone-home__scenery { height: 24px; } }
 @media (prefers-reduced-motion: reduce) { .phone-lock, .phone-lock *, .phone-lock *::before, .phone-lock *::after, .phone-home *, .phone-home *::before, .phone-home *::after, .phone-dock *, .phone-dock::before, .phone-dock::after { animation: none !important; transition: none !important; } .phone-lock[data-leaving="true"] { transform: none; filter: none; opacity: 0; } .phone-lock__body { transform: none !important; } }
+@media (prefers-reduced-motion: reduce) {
+  .phone-lock__word-reserve[data-primary="true"] { visibility: visible; }
+  .phone-lock__word-text { visibility: hidden; }
+  .phone-lock__word-reserve::after, .phone-lock__word-text::after { display: none; }
+}

@@ -1,0 +1,11 @@
+.home-tagline { display: grid; }
+.home-tagline__reserve, .home-tagline__text { grid-area: 1 / 1; min-width: 0; }
+.home-tagline__reserve { visibility: hidden; pointer-events: none; }
+.home-tagline__reserve::after, .home-tagline__text::after { content: ''; display: inline-block; width: 1px; height: .9em; margin-left: .16em; vertical-align: -.08em; }
+.home-tagline__text::after { background: #7dd3fc; box-shadow: 0 0 7px #22d3ee80; animation: home-tagline-cursor .85s steps(2, start) infinite; }
+@keyframes home-tagline-cursor { 50% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) {
+  .home-tagline__reserve[data-primary="true"] { visibility: visible; }
+  .home-tagline__text { visibility: hidden; }
+  .home-tagline__reserve::after, .home-tagline__text::after { display: none; animation: none; }
+}

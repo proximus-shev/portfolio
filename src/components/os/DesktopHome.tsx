@@ -7,6 +7,7 @@ import { profile, setTheme, technologies, type AppId, type Theme } from "./regis
 import type { OpenApp } from "./Applications";
 import "./desktop-home.css";
 import { useFocusTimer } from "./FocusTimer";
+import { HomeTagline } from "./HomeTagline";
 
 function localGreeting() {
   const now = new Date();
@@ -32,7 +33,7 @@ export function FocusWidget() {
   </section>;
 }
 
-export function DesktopHome({ open }: { open: OpenApp }) {
+export function DesktopHome({ open, enabled }: { open: OpenApp; enabled: boolean }) {
   const [clock, setClock] = useState({ greeting: "Hello there,", date: "" });
   const [visited, setVisited] = useState<AppId[]>([]);
   const surface = useRef<HTMLElement>(null);
@@ -61,7 +62,7 @@ export function DesktopHome({ open }: { open: OpenApp }) {
     { id: "contact", label: "Start a conversation", meta: "Say hello" },
   ];
   return <><section ref={surface} className="desktop-home" aria-label="Proximus Shev desktop home" tabIndex={0}>
-    <div className="desktop-home__greeting"><h1 id="os-desktop-home-heading" tabIndex={-1}>{clock.greeting}<strong>I&apos;m John.</strong></h1><span className="desktop-home__accent" /><p>I turn ambitious ideas into products people remember.</p><span className="os-sr-only">{profile.name}. Frontend, full-stack, and software developer.</span><div className="desktop-home__actions"><button onClick={() => open("projects")}><FolderOpen size={18} /> View my work</button><button onClick={() => open("contact")}>Let&apos;s talk <ArrowUpRight size={18} /></button></div></div>
+    <div className="desktop-home__greeting"><h1 id="os-desktop-home-heading" tabIndex={-1}>{clock.greeting}<strong>I&apos;m John.</strong></h1><span className="desktop-home__accent" /><HomeTagline enabled={enabled} /><span className="os-sr-only">{profile.name}. Frontend, full-stack, and software developer.</span><div className="desktop-home__actions"><button onClick={() => open("projects")}><FolderOpen size={18} /> View my work</button><button onClick={() => open("contact")}>Let&apos;s talk <ArrowUpRight size={18} /></button></div></div>
     <div className="desktop-home__widgets">
       <section className="desktop-explore desktop-glass" aria-label="Portfolio shortcuts"><header><h2>Explore</h2><time>{clock.date}</time></header>
         <div>{shortcuts.map((item) => <button key={item.id} onClick={() => { setVisited((old) => old.includes(item.id) ? old : [...old, item.id]); open(item.id); }}><span className="desktop-explore__check" data-visited={visited.includes(item.id)}>{visited.includes(item.id) && <Check size={12} />}</span><span>{item.label}</span><small>{item.meta}</small></button>)}</div>

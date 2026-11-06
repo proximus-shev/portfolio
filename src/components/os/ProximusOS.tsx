@@ -369,7 +369,7 @@ export function ProximusOS() {
           </small>
         </div>
       </aside>
-      <DesktopHome open={open} />
+      <DesktopHome open={open} enabled={ready && !state.mobile && !screenLocked} />
       <div
         className="os-mobile-surface"
         hidden={state.active !== "welcome" && state.mobile}

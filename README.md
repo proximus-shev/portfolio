@@ -26,6 +26,8 @@ Phone screens have a dedicated lock screen and home launcher. Swipe up on the lo
 
 On phones, Home scrolls inside a fixed screen with space reserved for the dock and device safe areas. The wallpaper uses the large viewport height so Safari toolbar changes do not resize or recrop it. Dedicated case studies retain normal document scrolling.
 
+Desktop and phone Home rotate six personal catchphrases with a typewriter effect and reserved space to prevent layout movement. The phone lock screen keeps "IDEAS BUILT TO" fixed while typing MATTER, INSPIRE, PERFORM, CONNECT, EMPOWER, and LAST. Reduced motion shows static text. A phone Home lock button sits beside the appearance toggle, and mobile search uses a 16px input to avoid Safari's focus zoom.
+
 Direct links use `/?app=projects`, `/?app=contact`, or `/?app=projects&project=ai-study-assistant`. Existing `/#about`, `/#tech-stack`, and `/#contact` links also work.
 
 Unlocking is remembered in session storage so links from project pages return directly to the workspace. The Lock control clears that preference. This is a portfolio interaction, not authentication. Terminal is excluded from navigation, search, URL handling, and rendered windows.
@@ -63,5 +65,7 @@ The current checkout contains five planned projects and the portfolio marked in 
 Install the test browsers with `npx playwright install chromium webkit`. Run `npm run build`, then `npx playwright test`. The test runner starts a fresh production preview on port 3100 and saves screenshots and failure traces under the ignored `test-results/` directory. Set `PLAYWRIGHT_BASE_URL` to run against an existing preview or deployment instead. Run `npm run lint` separately.
 
 The 44 general Chromium checks cover eight viewport sizes in light and dark themes, desktop and phone unlocking, the intro with normal and reduced motion, portrait loading and circular frames, appearance persistence, direct links and browser history, dock restoration, window maximize/restore/drag bounds, focus timer continuity, short-screen scrolling, project routes and metadata, branded wallpapers, optimized portrait responses, and crawler/social routes. Eight additional phone checks run in both Chromium and mobile WebKit, covering stationary wallpaper during content scrolling, dock clearance, reachable widgets and projects, unlock/reload, and document scrolling when leaving Home. Automated WebKit coverage does not replace checking Safari's toolbar and safe areas on a physical iPhone; Firefox and real-device performance remain unverified.
+
+Eight interaction checks also run in both browser projects: complete catchphrase and lock-word rotation, unchanged layout during typing, reduced-motion text, mobile search input sizing and viewport scale, and relocking from Home with persistence after reload. The full suite contains 76 tests.
 
 Desktop home, window backgrounds, appearance previews, and the focus widget use `home-desktop-ps-dark.webp` and `home-desktop-ps-light.webp`. The original wallpapers remain available; edit prompts are recorded in `output/imagegen/wallpaper-prompts.md`. The profile portrait appears in About and the desktop/phone profile controls.

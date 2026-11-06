@@ -2146,6 +2146,10 @@ html[data-ps-boot="skip"] .ps-os-boot {
   .os-palette {
     top: 90px;
   }
+  .os-palette__search input {
+    /* Keep iPhone Safari from zooming the page when search receives focus. */
+    font-size: 16px;
+  }
 }
 @media (max-width: 359px) {
   .os-mobile-home {

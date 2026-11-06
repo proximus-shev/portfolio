@@ -112,8 +112,8 @@ test("phone unlock and reload preserve the fixed screen and usable dock", async 
   await page.getByRole("navigation", { name: "Phone navigation" })
     .getByRole("button", { name: "Contact", exact: true }).click();
   await expect(page.locator(".os-window--contact")).toBeVisible();
-  const window = await page.locator(".os-window--contact").boundingBox();
+  const appWindow = await page.locator(".os-window--contact").boundingBox();
   const dock = await page.locator(".phone-dock").boundingBox();
-  expect(window!.y + window!.height).toBeLessThan(dock!.y);
+  expect(appWindow!.y + appWindow!.height).toBeLessThan(dock!.y);
   expect(await page.evaluate(() => window.scrollY)).toBe(0);
 });

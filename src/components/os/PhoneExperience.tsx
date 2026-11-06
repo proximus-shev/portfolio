@@ -7,6 +7,8 @@ import { applications, profile, setTheme, visibleApplications, type AppId } from
 import { projects } from "@/data/projects";
 import type { OpenApp } from "./Applications";
 import { FocusWidget } from "./DesktopHome";
+import { HomeTagline } from "./HomeTagline";
+import { PhoneLockTagline } from "./PhoneLockTagline";
 import "./phone-experience.css";
 
 function usePhoneClock(enabled = true) {
@@ -89,13 +91,13 @@ export function PhoneLockScreen({ locked, onUnlock }: { locked: boolean; onUnloc
   return <section ref={ref} className="phone-lock" data-leaving={leaving} aria-label="Portfolio phone lock screen" onPointerDown={begin} onPointerMove={move} onPointerUp={end} onPointerCancel={end}>
     <div className="phone-wallpaper" aria-hidden="true" />
     <header className="phone-lock__brand"><span>PROXIMUS SHEV</span></header>
-    <div className="phone-lock__body"><div className="phone-lock__clock"><time dateTime={clock.iso || undefined}>{clock.date || "\u00a0"}</time><div><time dateTime={clock.iso || undefined}>{clock.time}</time><span>{clock.period}</span></div><p>IDEAS BUILT TO <strong>MATTER.</strong></p></div>
+    <div className="phone-lock__body"><div className="phone-lock__clock"><time dateTime={clock.iso || undefined}>{clock.date || "\u00a0"}</time><div><time dateTime={clock.iso || undefined}>{clock.time}</time><span>{clock.period}</span></div><PhoneLockTagline /></div>
       <div className="phone-lock__entry"><button data-phone-lock-control className="phone-lock__unlock phone-glass" onClick={() => unlock()} aria-label="Unlock the portfolio" disabled={leaving}><LockKeyhole className="phone-lock__closed-icon" size={25} strokeWidth={1.7} aria-hidden="true" /><LockKeyholeOpen className="phone-lock__open-icon" size={25} strokeWidth={1.7} aria-hidden="true" /></button><p>{leaving ? "Opening your workspace" : "Swipe up to unlock"}</p>{!leaving && <ChevronUp className="phone-lock__swipe-arrow" size={19} aria-hidden="true" />}</div></div>
     <div className="phone-lock__shortcuts"><button data-phone-lock-control onClick={togglePhoneTheme} aria-label="Switch light and dark appearance"><Sun className="phone-dark" size={21} /><Moon className="phone-light" size={21} /></button><button data-phone-lock-control onClick={() => unlock("contact")} aria-label="Unlock and contact John"><Mail size={21} /></button></div>
   </section>;
 }
 
-export function PhoneHome({ open, search, enabled }: { open: OpenApp; search: () => void; lock: () => void; enabled: boolean }) {
+export function PhoneHome({ open, search, lock, enabled }: { open: OpenApp; search: () => void; lock: () => void; enabled: boolean }) {
   const clock = usePhoneClock(enabled);
   const [page, setPage] = useState(0);
   const [visited, setVisited] = useState<AppId[]>([]);
@@ -107,8 +109,8 @@ export function PhoneHome({ open, search, enabled }: { open: OpenApp; search: ()
   ];
   const launch = (id: AppId) => { setVisited((old) => old.includes(id) ? old : [...old, id]); open(id); };
   return <div className="phone-home">
-    <div className="phone-home__status"><Image src="/ps-logo.png" width={40} height={40} sizes="40px" alt="Proximus Shev" /><button className="phone-home__theme-toggle" onClick={togglePhoneTheme} aria-label="Switch light and dark appearance"><Sun className="phone-dark" size={21} /><Moon className="phone-light" size={21} /></button></div>
-    <header className="phone-home__intro"><div><h1 id="os-home-heading" tabIndex={-1}>{clock.greeting}<strong>I&apos;m John.</strong></h1><p>Ideas into products people remember.</p></div><button className="phone-avatar" onClick={() => open("about")} aria-label={`About ${profile.name}`}><Image src={profile.portrait} fill sizes="128px" quality={90} alt="" /></button></header>
+    <div className="phone-home__status"><Image src="/ps-logo.png" width={40} height={40} sizes="40px" alt="Proximus Shev" /><div className="phone-home__controls"><button className="phone-home__lock" onClick={lock} aria-label="Lock the portfolio" title="Lock screen"><LockKeyhole size={21} /></button><button className="phone-home__theme-toggle" onClick={togglePhoneTheme} aria-label="Switch light and dark appearance"><Sun className="phone-dark" size={21} /><Moon className="phone-light" size={21} /></button></div></div>
+    <header className="phone-home__intro"><div><h1 id="os-home-heading" tabIndex={-1}>{clock.greeting}<strong>I&apos;m John.</strong></h1><HomeTagline enabled={enabled} /></div><button className="phone-avatar" onClick={() => open("about")} aria-label={`About ${profile.name}`}><Image src={profile.portrait} fill sizes="128px" quality={90} alt="" /></button></header>
     <button className="phone-home__search phone-glass" onClick={search}><Search size={21} /><span>Search apps, projects, and more...</span><ArrowRight size={18} /></button>
     <section key={page} className="phone-home__page" id="phone-home-panel" role="tabpanel" aria-labelledby={`phone-tab-${page}`}>
       {page === 0 && <><div className="phone-home__scenery" aria-hidden="true" /><section className="phone-agenda phone-glass"><header><h2>{clock.shortDate || "Explore the portfolio"}</h2><button onClick={search} aria-label="Find more portfolio apps"><Plus size={21} /></button></header><div>{explore.map((item, index) => <button key={item.id} onClick={() => launch(item.id)}><i data-index={index} data-visited={visited.includes(item.id)} /><span>{item.label}</span><small>{item.meta}</small></button>)}</div></section>

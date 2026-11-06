@@ -20,7 +20,7 @@ export default defineConfig({
     },
     {
       name: "webkit-phone",
-      testMatch: "**/mobile-viewport.spec.ts",
+      testMatch: ["**/mobile-viewport.spec.ts", "**/interaction-refinements.spec.ts"],
       use: { ...devices["iPhone 13"] },
     },
   ],
