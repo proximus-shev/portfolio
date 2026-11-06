@@ -1,8 +1,14 @@
 import { ProximusOS } from "@/components/os/ProximusOS";
 import Link from "next/link";
 import { projects } from "@/data/projects";
+import type { Viewport } from "next";
 
 export const metadata = { alternates: { canonical: "/" } };
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+};
 
 export default function Home() {
   return (

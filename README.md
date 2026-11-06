@@ -24,6 +24,8 @@ After the desktop lock screen, Home reveals portfolio shortcuts, work/contact ac
 
 Phone screens have a dedicated lock screen and home launcher. Swipe up on the lock screen or tap its unlock button; use the theme and contact shortcuts as needed. Home has portfolio shortcuts, app search, appearance and focus widgets, and three selectable pages (Home, Apps, Projects). Its dock opens Home, Contact, and Settings. Both phone screens currently reuse the supplied portrait wallpaper pair. The timer session is shared across desktop and phone layouts.
 
+On phones, Home scrolls inside a fixed screen with space reserved for the dock and device safe areas. The wallpaper uses the large viewport height so Safari toolbar changes do not resize or recrop it. Dedicated case studies retain normal document scrolling.
+
 Direct links use `/?app=projects`, `/?app=contact`, or `/?app=projects&project=ai-study-assistant`. Existing `/#about`, `/#tech-stack`, and `/#contact` links also work.
 
 Unlocking is remembered in session storage so links from project pages return directly to the workspace. The Lock control clears that preference. This is a portfolio interaction, not authentication. Terminal is excluded from navigation, search, URL handling, and rendered windows.
@@ -58,8 +60,8 @@ The current checkout contains five planned projects and the portfolio marked in 
 
 ## Verification
 
-Run `npm run build`, then `npx playwright test`. The test runner starts a fresh production preview on port 3100 and saves screenshots and failure traces under the ignored `test-results/` directory. Set `PLAYWRIGHT_BASE_URL` to run against an existing preview or deployment instead. Run `npm run lint` separately.
+Install the test browsers with `npx playwright install chromium webkit`. Run `npm run build`, then `npx playwright test`. The test runner starts a fresh production preview on port 3100 and saves screenshots and failure traces under the ignored `test-results/` directory. Set `PLAYWRIGHT_BASE_URL` to run against an existing preview or deployment instead. Run `npm run lint` separately.
 
-The 44 Chromium checks cover eight viewport sizes in light and dark themes, desktop and phone unlocking, the intro with normal and reduced motion, portrait loading and circular frames, appearance persistence, direct links and browser history, dock restoration, window maximize/restore/drag bounds, focus timer continuity, short-screen scrolling, project routes and metadata, branded wallpapers, optimized portrait responses, and crawler/social routes. These checks do not establish Safari/Firefox compatibility or real-device performance.
+The 44 general Chromium checks cover eight viewport sizes in light and dark themes, desktop and phone unlocking, the intro with normal and reduced motion, portrait loading and circular frames, appearance persistence, direct links and browser history, dock restoration, window maximize/restore/drag bounds, focus timer continuity, short-screen scrolling, project routes and metadata, branded wallpapers, optimized portrait responses, and crawler/social routes. Eight additional phone checks run in both Chromium and mobile WebKit, covering stationary wallpaper during content scrolling, dock clearance, reachable widgets and projects, unlock/reload, and document scrolling when leaving Home. Automated WebKit coverage does not replace checking Safari's toolbar and safe areas on a physical iPhone; Firefox and real-device performance remain unverified.
 
 Desktop home, window backgrounds, appearance previews, and the focus widget use `home-desktop-ps-dark.webp` and `home-desktop-ps-light.webp`. The original wallpapers remain available; edit prompts are recorded in `output/imagegen/wallpaper-prompts.md`. The profile portrait appears in About and the desktop/phone profile controls.

@@ -18,6 +18,11 @@ export default defineConfig({
       name: "chromium",
       use: { ...devices["Desktop Chrome"] },
     },
+    {
+      name: "webkit-phone",
+      testMatch: "**/mobile-viewport.spec.ts",
+      use: { ...devices["iPhone 13"] },
+    },
   ],
   webServer: externalBaseURL ? undefined : {
     command: `${process.platform === "win32" ? "npm.cmd" : "npm"} run start -- -p 3100`,
